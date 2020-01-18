@@ -11,16 +11,17 @@ section#hero {
         .anime-words {
             transform: translateY(100px);
             display: inline-block;
+            opacity: 0;
         }
 
         h1 {
-            font-size: 60px;
+            font-size: 80px;
             font-weight: 500;
             font-family: $font;
         }
 
         h3 {
-            font-size: 30px;
+            font-size: 40px;
             font-family: $font;
             font-weight: 500;
         }

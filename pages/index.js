@@ -2,8 +2,7 @@ import React from "react";
 import Link from "next/link";
 import anime from "animejs";
 import axios from "axios";
-import { Box } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
+import AOS from "aos";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Slider from "../modules/slider";
@@ -38,6 +37,8 @@ class Home extends React.Component {
 
     const slide = new Slider({ scroll: true });
     slide.init();
+
+    AOS.init();
   }
 
   render() {
@@ -83,10 +84,25 @@ class Home extends React.Component {
                           />
                         </div>
                         <div className="text">
-                          <h4>{item.acf.project_info}</h4>
-                          <h2>{item.title.rendered}</h2>
+                          <h4 data-aos="fade-up" data-aos-easing="ease-in-sine">
+                            {item.acf.project_info}
+                          </h4>
+                          <h2
+                            data-aos="fade-up"
+                            data-aos-offset="200"
+                            data-aos-easing="ease-in-sine"
+                          >
+                            {item.title.rendered}
+                          </h2>
                           <Link href={`/project/${item.slug}`}>
-                            <a> See Project</a>
+                            <a
+                              data-aos="fade-up"
+                              data-aos-offset="300"
+                              data-aos-easing="ease-in-sine"
+                            >
+                              {" "}
+                              Go To Project
+                            </a>
                           </Link>
                         </div>
                       </div>

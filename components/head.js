@@ -26,7 +26,7 @@ const Head = props => {
       <link
         rel="stylesheet"
         type="text/css"
-        href="https://use.typekit.net/sup0pbm.css"
+        href="https://rsms.me/inter/inter.css"
       />
     </NextHead>
   );

@@ -6,6 +6,7 @@ import App from "next/app";
  */
 import "../assets/main.css";
 import "../assets/scss/main.scss";
+import "aos/dist/aos.css";
 
 class Application extends App {
   render() {
