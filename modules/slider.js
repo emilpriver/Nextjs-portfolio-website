@@ -160,7 +160,7 @@ class Slider {
     this.slider.addEventListener("mousedown", this.on, false);
     this.slider.addEventListener("mouseup", this.off, false);
     this.slider.addEventListener("touchmove", this.setPos, { passive: true });
-    this.slider.addEventListener("touchenter", this.on, false);
+    this.slider.addEventListener("touchstart", this.on, false);
     this.slider.addEventListener("touchend", this.off, false);
 
     window.addEventListener("resize", this.resize, false);
@@ -177,7 +177,7 @@ class Slider {
     this.slider.removeEventListener("touchmove", this.setPos, {
       passive: true
     });
-    this.slider.removeEventListener("touchenter", this.on, false);
+    this.slider.removeEventListener("touchstart", this.on, false);
     this.slider.removeEventListener("touchend", this.off, false);
   }
 
