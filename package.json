@@ -8,8 +8,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/lab": "^4.0.0-alpha.39",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
+    "animejs": "^3.1.0",
+    "autoprefixer": "^9.7.4",
+    "axios": "^0.19.1",
     "babel-eslint": "^10.0.3",
     "dotenv": "^8.2.0",
     "eslint-plugin-prettier": "^3.1.2",
@@ -20,6 +25,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "tailwindcss": "^1.1.4",
     "webpack": "^4.41.5"
   },
   "devDependencies": {

@@ -5,10 +5,10 @@ import "../assets/scss/modules/nav.module.scss";
 
 const Nav = () => (
   <header id="nav">
-    <div className="container mx-auto">
+    <div className="wrapper mx-auto">
       <div className="logo w-1/4 float-left">
         <img
-          src="https://cdn.privv.cloud/emilpriver/logo_black.png"
+          src="https://cdn.privv.cloud/emilpriver/logo_white.png"
           alt="Emil Priver"
         />
       </div>

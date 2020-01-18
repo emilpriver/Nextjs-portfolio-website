@@ -14,11 +14,6 @@ const Head = props => {
       <link rel="apple-touch-icon" href="/static/touch-icon.png" />
       <link rel="mask-icon" href="/static/favicon-mask.svg" color="#49B882" />
       <link rel="icon" href="/static/favicon.ico" />
-      <link
-        href="https://cdn.jsdelivr.net/npm/boxicons@2.0.4/css/boxicons.min.css"
-        rel="stylesheet"
-        type="text/css"
-      />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={title || ""} />
       <meta property="og:description" content={description} />
@@ -31,7 +26,7 @@ const Head = props => {
       <link
         rel="stylesheet"
         type="text/css"
-        href="https://use.typekit.net/npc4yxu.css"
+        href="https://use.typekit.net/sup0pbm.css"
       />
     </NextHead>
   );

@@ -1,1 +1,10 @@
+@import 'variables';
+
 @import 'pages/home.scss';
+@import 'components/works';
+
+
+body {
+    background: #111;
+    color: #fff;
+}
