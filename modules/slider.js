@@ -98,13 +98,31 @@ class Slider {
 
     const sd = this.currentX - this.lastX;
     const acc = sd / window.innerWidth;
-    let velo = +acc;
+    const velo = +acc;
 
     this.sliderInner.style.transform = `translate3d(${
       this.lastX
     }px, 0, 0) skewX(${velo * this.opts.velocity}deg)`;
 
     this.requestAnimationFrame();
+  }
+
+  toggleActiveElement() {
+    const parentSlide = this.slider.getBoundingClientRect();
+    const activeIndex = Math.ceil(Math.abs(this.lastX) / parentSlide.width);
+
+    this.slides.forEach((slide, index) => {
+      if (
+        slide &&
+        index !== activeIndex &&
+        slide.classList.contains("active")
+      ) {
+        slide.classList.remove("active");
+      }
+    });
+
+    const activeElement = this.slides[activeIndex];
+    if (activeElement) activeElement.classList.add("active");
   }
 
   on(e) {
@@ -118,6 +136,7 @@ class Slider {
     this.isDragging = false;
     this.offX = this.currentX;
     this.slider.classList.remove("is-grabbing");
+    this.toggleActiveElement();
   }
 
   closest() {
@@ -140,7 +159,6 @@ class Slider {
 
   snap() {
     const { closest } = this.closest();
-
     this.currentX = this.currentX + closest;
     this.clamp();
   }

@@ -40,8 +40,6 @@ class Home extends React.Component {
     const slide = new Slider({ scroll: true });
     slide.init();
 
-    AOS.init();
-
     window.addEventListener("scroll", () => {
       const elements = document.querySelectorAll(".toggle-transition-element");
       Array.prototype.forEach.call(elements, child => {
@@ -121,7 +119,7 @@ class Home extends React.Component {
         </section>
         <section id="works">
           <div className="wrapper mx-auto">
-            <h2 className="title">My Works</h2>
+            <h2 className="title">Latest Works</h2>
             <div className="js-slider-wrapper">
               <div className="js-slider">
                 <div className="js-slider--inner">
