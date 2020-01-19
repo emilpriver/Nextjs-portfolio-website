@@ -37,10 +37,7 @@ class Home extends React.Component {
       }
     });
 
-    const slide = new Slider({ scroll: true });
-    slide.init();
-
-    AOS.init();
+    // AOS.init();
 
     window.addEventListener("scroll", () => {
       const elements = document.querySelectorAll(".toggle-transition-element");
@@ -51,12 +48,12 @@ class Home extends React.Component {
             this.fadeLetters(child, "in");
           }
         }
-        if (!this.inView(child)) {
-          if (child.classList.contains("animated")) {
-            child.classList.remove("animated");
-            this.fadeLetters(child, "out");
-          }
-        }
+        //         if (!this.inView(child)) {
+        //          if (child.classList.contains("animated")) {
+        //            child.classList.remove("animated");
+        //            this.fadeLetters(child, "out");
+        //          }
+        //        }
       });
     });
   }
@@ -122,41 +119,31 @@ class Home extends React.Component {
         <section id="works">
           <div className="wrapper mx-auto">
             <h2 className="title">My Works</h2>
-            <div className="js-slider-wrapper">
-              <div className="js-slider">
-                <div className="js-slider__inner">
-                  {projects.map(item => (
-                    <div
-                      className="project js-slider__inner__item"
-                      key={item.slug}
-                    >
-                      <div className="project_wrapper">
-                        <div className="image">
-                          <img
-                            src={item.acf.thumbnail}
-                            alt={item.title.rendered}
-                          />
-                        </div>
-                        <div className="text">
-                          <h4 className="toggle-transition-element">
-                            <div className="words">{item.acf.project_info}</div>
-                          </h4>
-                          <h2 className="toggle-transition-element">
-                            <div className="words">{item.title.rendered}</div>
-                          </h2>
-                          <Link href={`/project/${item.slug}`}>
-                            <a className="toggle-transition-element">
-                              <div className="words">Go</div>
-                              <div className="words">To</div>
-                              <div className="words">Project</div>
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
+            <div className="projects-wrapper">
+              {projects.map(item => (
+                <div className="project" key={item.slug}>
+                  <div className="project_wrapper">
+                    <div className="image">
+                      <img src={item.acf.thumbnail} alt={item.title.rendered} />
                     </div>
-                  ))}
+                    <div className="text">
+                      <h4 className="toggle-transition-element">
+                        <div className="words">{item.acf.project_info}</div>
+                      </h4>
+                      <h2 className="toggle-transition-element">
+                        <div className="words">{item.title.rendered}</div>
+                      </h2>
+                      <Link href={`/project/${item.slug}`}>
+                        <a className="toggle-transition-element">
+                          <div className="words">Go</div>
+                          <div className="words">To</div>
+                          <div className="words">Project</div>
+                        </a>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
