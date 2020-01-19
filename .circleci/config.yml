@@ -27,7 +27,7 @@ jobs:
       #    command: yarn test
       - run:
           name: Install Now
-          command: yarn add global now --silent
+          command: npm install -g now --silent
       - run:
           name: Deploy website to NextJs
           command: now --prod -e NODE_ENV=production --token=$ZEIT_DEPLOY_KEY --no-clipboard
