@@ -57,16 +57,17 @@ section#works {
                 margin: 0 auto;
 
                 .image {
-                    height: 700px;
+                    height: 800px;
                     width: 100%;
                     margin-bottom: 30px;
                     pointer-events: none;
+                    overflow: hidden;
+                    border-radius: 4px;
 
                     img {
                         object-fit: cover;
                         height: 100%;
                         width: 100%;
-                        border-radius: 4px;
                     }
                 }
 
@@ -93,6 +94,21 @@ section#works {
                         letter-spacing: -0.011em;
                         font-family: $font;
                         font-size: 15px;
+
+                        .words {
+                            float: left;
+                            margin-right: 5px;
+                        }
+                    }
+
+                    h2,
+                    h4,
+                    a {
+                        .words {
+                            transform: translateY(5px);
+                            display: inline-block;
+                            opacity: 0;
+                        }
                     }
                 }
             }

@@ -60,7 +60,7 @@ class Slider {
     this.min = 0;
     this.max = 0;
 
-    this.centerX = this.slider.getBoundingClientRect().width / 2;
+    this.centerX = window.innerWidth / 2;
   }
 
   bind() {

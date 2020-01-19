@@ -9,8 +9,9 @@ section#hero {
         max-width: 1200px;
 
         .anime-words {
-            transform: translateY(100px);
+            transform: translateY(10px);
             display: inline-block;
+            margin-right: 15px;
             opacity: 0;
         }
 
