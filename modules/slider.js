@@ -34,8 +34,8 @@ class Slider {
 
     this.opts = {
       el: options.el || ".js-slider",
-      inner: options.inner || ".js-slider__inner",
-      slide: ".js-slider__inner__item",
+      inner: options.inner || ".js-slider--inner",
+      slide: ".js-slider--inner--item",
       ease: options.ease || 0.1,
       speed: options.speed || 2,
       velocity: 50,
