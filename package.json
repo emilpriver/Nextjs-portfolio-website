@@ -5,7 +5,8 @@
     "build": "next build",
     "export": "next build && next export",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "deploy": "now --prod -e NODE_ENV=production --token=$ZEIT_DEPLOY_KEY --no-clipboard"
   },
   "dependencies": {
     "@material-ui/core": "^4.8.3",
