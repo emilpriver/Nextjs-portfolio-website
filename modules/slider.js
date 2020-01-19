@@ -38,7 +38,7 @@ class Slider {
       slide: ".js-slider__inner__item",
       ease: options.ease || 0.1,
       speed: options.speed || 2,
-      velocity: 25,
+      velocity: 50,
       scroll: options.scroll || false
     };
 
