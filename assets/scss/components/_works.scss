@@ -49,11 +49,12 @@ section#works {
     }
 
     .wrapper {
+        position: relative;
+
         .project {
             margin-bottom: 200px;
             width: 100%;
             float: left;
-
 
             .project_wrapper {
                 max-width: 1200px;
@@ -61,12 +62,13 @@ section#works {
                 position: relative;
 
                 .image {
-                    height: 800px;
+                    height: 600px;
                     width: 100%;
                     margin-bottom: 30px;
                     pointer-events: none;
                     overflow: hidden;
                     border-radius: 4px;
+                    opacity: .7;
 
                     img {
                         object-fit: cover;
@@ -74,64 +76,64 @@ section#works {
                         width: 100%;
                     }
                 }
+            }
+        }
 
-                .text {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 20px;
-                    z-index: 10;
+        .project--text {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            z-index: 10;
 
-                    &-wrapper {
-                        h2 {
-                            font-size: 60px;
-                            font-weight: 500;
-                            font-family: $font;
-                            margin: 0;
-                            letter-spacing: -0.011em;
-                        }
+            &-wrapper {
+                h2 {
+                    font-size: 60px;
+                    font-weight: 500;
+                    font-family: $font;
+                    margin: 0;
+                    letter-spacing: -0.011em;
+                }
 
-                        h4 {
-                            font-size: 20px;
-                            font-weight: 500;
-                            color: $green;
-                            margin: 0;
-                            letter-spacing: -0.011em;
-                            font-family: $font;
-                        }
+                h4 {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: $green;
+                    margin: 0;
+                    letter-spacing: -0.011em;
+                    font-family: $font;
+                }
 
-                        a {
-                            margin: 0;
-                            letter-spacing: -0.011em;
-                            font-family: $font;
-                            font-weight: 500;
-                            font-size: 15px;
-                            position: relative;
+                a {
+                    margin: 0;
+                    letter-spacing: -0.011em;
+                    font-family: $font;
+                    font-weight: 500;
+                    font-size: 15px;
+                    position: relative;
 
-                            &::after {
-                                content: " ";
-                                display: block;
-                                position: absolute;
-                                bottom: -10px;
-                                left: 0;
-                                width: 100%;
-                                background: #fff;
-                            }
+                    &::after {
+                        content: " ";
+                        display: block;
+                        position: absolute;
+                        bottom: -10px;
+                        left: 0;
+                        width: 100%;
+                        background: #fff;
+                    }
 
-                            .words {
-                                float: left;
-                                margin-right: 5px;
-                            }
-                        }
+                    .words {
+                        float: left;
+                        margin-right: 5px;
+                    }
+                }
 
-                        h2,
-                        h4,
-                        a {
-                            .words {
-                                transform: translateY(5px);
-                                display: inline-block;
-                                opacity: 0;
-                            }
-                        }
+                h2,
+                h4,
+                a {
+                    .words {
+                        transform: translateY(5px);
+                        display: inline-block;
+                        opacity: 0;
                     }
                 }
             }
