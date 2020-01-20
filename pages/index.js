@@ -129,8 +129,7 @@ class Home extends React.Component {
 
   async setActiveElementContext() {
     const { projects } = this.props;
-    const activeIndex = this.getActiveIndex();
-    const element = projects[activeIndex];
+    const element = projects[this.getActiveIndex()];
 
     await this.fadeLetters(this.projectTextRef.current, "out").then(() => {
       this.setState(
@@ -271,7 +270,7 @@ class Home extends React.Component {
   };
 
   fadeLetters = (el, type) => {
-    return new Promise(function(resolve) {
+    return new Promise(resolve => {
       anime({
         targets: el.querySelectorAll(".words"),
         translateY: type === "in" ? ["5px", 0] : [0, "5px"],
