@@ -8,15 +8,14 @@ import Slider from "../modules/slider";
 
 import "aos/dist/aos.css";
 
-export async function getStaticProps() {
-  const data = await axios
-    .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
-    .then(d => d.data);
-  console.log(data);
-  return { props: { projects: data } };
-}
-
 class Home extends React.Component {
+  static async getInitialProps() {
+    const projects = await axios
+      .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
+      .then(d => d.data);
+    return { projects };
+  }
+
   constructor(props) {
     super(props);
 
@@ -84,7 +83,6 @@ class Home extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { projects } = this.props;
     return (
       <>
