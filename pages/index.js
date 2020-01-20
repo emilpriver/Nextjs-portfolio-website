@@ -2,22 +2,21 @@ import React from "react";
 import Link from "next/link";
 import anime from "animejs";
 import axios from "axios";
-import AOS from "aos";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Slider from "../modules/slider";
 
 import "aos/dist/aos.css";
 
+export async function getStaticProps() {
+  const data = await axios
+    .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
+    .then(d => d.data);
+  console.log(data);
+  return { props: { projects: data } };
+}
+
 class Home extends React.Component {
-  static async getStaticProps() {
-    const projects = await axios
-      .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
-      .then(d => d.data);
-
-    return { props: { projects } };
-  }
-
   constructor(props) {
     super(props);
 
@@ -85,6 +84,7 @@ class Home extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { projects } = this.props;
     return (
       <>
