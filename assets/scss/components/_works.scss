@@ -1,13 +1,15 @@
 section#works {
+    margin-bottom: 200px;
+
     .title {
-        font-size: 120px;
+        font-size: 40px;
         letter-spacing: 1.3px;
-        font-weight: 600;
+        font-weight: 500;
         color: #111;
-        -webkit-text-stroke: 2px #fff;
+        -webkit-text-stroke: 0.4px #fff;
         text-align: left;
         max-width: 1200px;
-        margin: 0 auto 50px auto;
+        margin: 0 auto;
     }
 
     .js-slider {
@@ -45,7 +47,7 @@ section#works {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        height: 1000px;
+        height: 600px;
     }
 
     .wrapper {
@@ -80,18 +82,21 @@ section#works {
         }
 
         .project--text {
-            position: absolute;
-            top: 50%;
-            left: 10%;
-            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
 
             &-wrapper {
+                padding: 50px 0 0 50px;
+                box-sizing: border-box;
+
                 h2 {
                     font-size: 60px;
                     font-weight: 500;
                     font-family: $font;
                     margin: 0;
-                    letter-spacing: -0.011em;
+                    letter-spacing: 2px;
+                    margin-bottom: 0;
                 }
 
                 h4 {
@@ -99,17 +104,18 @@ section#works {
                     font-weight: 500;
                     color: $green;
                     margin: 0;
-                    letter-spacing: -0.011em;
+                    letter-spacing: 1px;
                     font-family: $font;
                 }
 
                 a {
                     margin: 0;
-                    letter-spacing: -0.011em;
+                    letter-spacing: 2px;
                     font-family: $font;
                     font-weight: 500;
                     font-size: 15px;
                     position: relative;
+                    letter-spacing: 1px;
 
                     &::after {
                         content: " ";

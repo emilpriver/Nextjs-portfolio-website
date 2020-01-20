@@ -142,8 +142,20 @@ class Home extends React.Component {
     return activeIndex;
   }
 
-  async setActiveElementContext() {
-    await this.fadeLetters(this.projectTextRef.current, "out");
+  async fadeInFirstElement() {
+    const { projects } = this.props;
+    const element = projects[this.getActiveIndex()];
+
+    this.setState(
+      {
+        activeSlideProjectInfo: element?.acf?.project_info,
+        activeSlideTitle: element?.acf?.title,
+        activeSlideSlug: element?.acf?.slug
+      },
+      () => {
+        this.fadeLetters(this.projectTextRef.current, "in");
+      }
+    );
   }
 
   toggleActiveElement() {
@@ -158,7 +170,6 @@ class Home extends React.Component {
     const activeElement = this.slides[activeIndex];
     if (activeElement) {
       activeElement.classList.add("active");
-      this.setActiveElementContext();
     }
   }
 
@@ -275,7 +286,7 @@ class Home extends React.Component {
     this.addEvents();
     setTimeout(() => {
       this.toggleActiveElement();
-      this.setActiveElementContext();
+      this.fadeInFirstElement();
     }, 200);
   }
 
