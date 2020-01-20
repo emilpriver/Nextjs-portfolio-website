@@ -48,10 +48,10 @@ jobs:
 workflows:
   version: 2
   jobs:
-    build-dev:
+   "build-dev":
       jobs:
         - build
-    build-deploy-production:
+    "build-deploy-production":
       jobs:
         - build
         - deploy
