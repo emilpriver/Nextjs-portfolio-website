@@ -47,14 +47,13 @@ jobs:
 
 workflows:
   version: 2
-  jobs:
-    build-dev:
-      jobs:
-        - build
-    build-deploy-production:
-      jobs:
-        - build
-        - deploy:
-            filters:
-              branches:
-                only: master
+  build_dev:
+    jobs:
+      - build
+  build_deploy_production:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only: master
