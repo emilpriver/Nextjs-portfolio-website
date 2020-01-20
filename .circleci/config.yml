@@ -33,10 +33,6 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     working_directory: ~/repo
-    branches:
-      only:
-        - master
-
     steps:
       - run:
         name: Install Now
@@ -51,5 +47,8 @@ workflows:
     jobs:
       - build
       - deploy:
+        filters:
+          branches:
+            only: master
         requires:
           - build
