@@ -30,7 +30,7 @@ class Home extends React.Component {
       inner: ".js-slider--inner",
       slide: ".js-slider--inner--item",
       ease: 0.1,
-      speed: 2,
+      speed: 1.5,
       velocity: 25,
       scroll: false
     };
@@ -121,28 +121,29 @@ class Home extends React.Component {
     this.requestAnimationFrame();
   }
 
+  getClosestNumber(goal) {
+    const parentSlide = this.slider.getBoundingClientRect();
+    const slideWidth = parentSlide.width;
+    const counts = [];
+
+    this.slides.forEach((slide, index) => {
+      counts.push(index * slideWidth);
+    });
+
+    return counts.reduce((prev, curr) => {
+      return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
+    });
+  }
+
   getActiveIndex() {
     const parentSlide = this.slider.getBoundingClientRect();
-    const activeIndex = Math.floor(Math.abs(this.currentX) / parentSlide.width);
+    const closestNumber = this.getClosestNumber(Math.abs(this.currentX));
+    const activeIndex = Math.floor(closestNumber / parentSlide.width);
     return activeIndex;
   }
 
   async setActiveElementContext() {
-    const { projects } = this.props;
-    const element = projects[this.getActiveIndex()];
-
-    await this.fadeLetters(this.projectTextRef.current, "out").then(() => {
-      this.setState(
-        {
-          activeSlideProjectInfo: element?.acf?.project_info,
-          activeSlideTitle: element?.acf?.title,
-          activeSlideSlug: element?.acf?.slug
-        },
-        () => {
-          this.fadeLetters(this.projectTextRef.current, "in");
-        }
-      );
-    });
+    await this.fadeLetters(this.projectTextRef.current, "out");
   }
 
   toggleActiveElement() {
@@ -168,11 +169,25 @@ class Home extends React.Component {
   }
 
   off() {
+    const { projects } = this.props;
+    const element = projects[this.getActiveIndex()];
+
     this.snap();
     this.isDragging = false;
     this.offX = this.currentX;
     this.slider.classList.remove("is-grabbing");
     this.toggleActiveElement();
+
+    this.setState(
+      {
+        activeSlideProjectInfo: element?.acf?.project_info,
+        activeSlideTitle: element?.acf?.title,
+        activeSlideSlug: element?.acf?.slug
+      },
+      () => {
+        this.fadeLetters(this.projectTextRef.current, "in");
+      }
+    );
   }
 
   closest() {
@@ -195,7 +210,7 @@ class Home extends React.Component {
 
   snap() {
     const { closest } = this.closest();
-    this.currentX = this.currentX + closest;
+    this.currentX += closest;
     this.clamp();
   }
 
@@ -236,6 +251,13 @@ class Home extends React.Component {
     this.slider.removeEventListener("touchend", this.off, false);
 
     window.removeEventListener("resize", this.resize);
+  }
+
+  calculateSliderWidth() {
+    const parentSlide = this.slider.getBoundingClientRect();
+    const slideWidth = parentSlide.width;
+    this.sliderWidth = this.slidesNumb * slideWidth;
+    this.max = -(this.sliderWidth - window.innerWidth);
   }
 
   resize() {

@@ -62,7 +62,7 @@ section#works {
                 position: relative;
 
                 .image {
-                    height: 800px;
+                    height: 600px;
                     width: 100%;
                     margin-bottom: 30px;
                     pointer-events: none;
@@ -82,8 +82,7 @@ section#works {
         .project--text {
             position: absolute;
             top: 50%;
-            left: 20%;
-            transform: translate(-50%, -50%);
+            left: 10%;
             z-index: 10;
 
             &-wrapper {
