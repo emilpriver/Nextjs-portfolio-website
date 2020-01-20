@@ -10,12 +10,12 @@ import Slider from "../modules/slider";
 import "aos/dist/aos.css";
 
 class Home extends React.Component {
-  static async getInitialProps() {
+  static async getStaticProps() {
     const projects = await axios
       .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
       .then(d => d.data);
 
-    return { projects };
+    return { props: { projects } };
   }
 
   constructor(props) {
