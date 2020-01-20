@@ -44,17 +44,3 @@ jobs:
       - run:
         name: Deploy website to NextJs
         command: yarn deploy
-
-workflows:
-  version: 2
-  build_and_deploy:
-    triggers:
-      - filters:
-        branches:
-          only:
-            - master
-    jobs:
-      - build
-      - deploy:
-        requires:
-          - build
