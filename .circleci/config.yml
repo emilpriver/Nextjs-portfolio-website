@@ -19,15 +19,42 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - store_artifacts:
+        path: node_modules
+        destination: node_modules
       - run:
           name: Build website
           command: yarn build
       #- run:
       #    name: Tests
       #    command: yarn test
+
+  deploy:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/repo
+    branches:
+      only:
+        - master
+
+    steps:
       - run:
-          name: Install Now
-          command: yarn add now
+        name: Install Now
+        command: yarn add now
       - run:
-          name: Deploy website to NextJs
-          command: yarn deploy
+        name: Deploy website to NextJs
+        command: yarn deploy
+
+workflows:
+  version: 2
+  build_and_deploy:
+    triggers:
+      - filters:
+        branches:
+          only:
+            - master
+    jobs:
+      - build
+      - deploy:
+        requires:
+          - build

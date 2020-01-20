@@ -9,7 +9,6 @@ const withCSS = require("@zeit/next-css");
 module.exports = withCSS(
   withSass({
     env: {},
-    target: "serverless",
     webpack: config => {
       config.node = {
         fs: "empty"
