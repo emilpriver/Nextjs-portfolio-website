@@ -44,14 +44,8 @@ class Home extends React.Component {
       this.centerX = window.innerWidth / 2;
     }
 
-    this.rAF = undefined;
-    this.sliderWidth = 0;
-    this.onX = 0;
-    this.offX = 0;
-    this.currentX = 0;
-    this.lastX = 0;
-    this.min = 0;
-    this.max = 0;
+    this.lastY = 0;
+    this.currentY = 0;
 
     this.projectTextRef = React.createRef();
   }
@@ -78,40 +72,7 @@ class Home extends React.Component {
   }
 
   bind() {
-    ["setPos", "resize"].forEach(fn => (this[fn] = this[fn].bind(this)));
-  }
-
-  setBounds() {
-    this.sliderHeight = this.slidesNumb * window.screen.height;
-    this.max = -(this.sliderHeight - window.screen.height);
-
-    this.slides.forEach((slide, index) => {
-      slide.style.height = `${window.screen.height}px`;
-      slide.style.top = `${index * window.screen.height}px`;
-    });
-  }
-
-  setPos(e) {
-    if (!this.isDragging) return;
-    this.currentX = this.offX + (e.clientX - this.onX) * this.opts.speed;
-    this.clamp();
-  }
-
-  clamp() {
-    this.currentX = Math.max(Math.min(this.currentX, this.min), this.max);
-  }
-
-  run() {
-    this.lastX = this.lerp(this.lastX, this.currentX, this.opts.ease);
-    this.lastX = Math.floor(this.lastX * 100) / 100;
-
-    const sd = this.currentX - this.lastX;
-    const acc = sd / window.innerWidth;
-    const velo = +acc;
-
-    this.sliderInner.style.transform = `translate3d(0, ${
-      this.lastX
-    }px, 0) skewX(${velo * this.opts.velocity}deg)`;
+    ["resize"].forEach(fn => (this[fn] = this[fn].bind(this)));
   }
 
   getClosestNumber(goal) {
@@ -174,48 +135,49 @@ class Home extends React.Component {
     this.clamp();
   }
 
-  setTransformTopPosition() {
-    this.lastX = this.lerp(this.lastX, this.currentX, this.opts.ease);
-    this.lastX = Math.floor(this.lastX * 100) / 100;
+  setBounds() {
+    this.sliderHeight = this.slidesNumb * window.screen.height;
+    this.max = -(this.sliderHeight - window.screen.height);
 
-    const sd = this.currentX - this.lastX;
-    const acc = sd / window.screen.height;
-    const velo = +acc;
+    this.slider.style.height = window.screen.height;
 
-    this.sliderInner.style.transform = `translate3d(0, ${-1050}px, 0) skewX(0)`;
+    this.slides.forEach((slide, index) => {
+      slide.style.height = `${window.screen.height}px`;
+      slide.style.top = `${index * window.screen.height}px`;
+    });
   }
 
-  changeBlock = () => {
-    this.lastX = this.lerp(this.lastX, this.currentX, this.opts.ease);
-    this.lastX = Math.floor(this.lastX * 100) / 100;
+  setTransformTopPosition(event) {
+    if (event.wheelDelta > 0) {
+      this.sliderInner.style.transform = `translate3d(0, ${this.currentY -
+        window.screen.height}px, 0) skewX(0)`;
+      this.currentY = window.screen.height - this.currentY;
+    } else {
+      this.sliderInner.style.transform = `translate3d(0, ${this.currentY +
+        window.screen.height}px, 0) skewX(0)`;
+      this.currentY = window.screen.height + this.currentY;
+    }
+  }
 
-    const sd = this.currentX - this.lastX;
-    const acc = sd / window.screen.height;
-    const velo = +acc;
-
-    this.sliderInner.style.transform = `translate3d(0, ${-1050}px, 0) skewX(0)`;
+  changeBlock = e => {
+    console.log(e);
+    this.setTransformTopPosition(e);
+    this.lastY = this.lastY + window.screen.height;
   };
 
   addEvents() {
-    this.run();
-
-    window.addEventListener("scroll", this.changeBlock, { passive: true });
+    window.addEventListener("wheel", this.changeBlock, { passive: true });
 
     window.addEventListener("resize", this.resize, false);
     window.onresize = this.resize;
   }
 
   removeEvents() {
-    window.removeEventListener("scroll", this.changeBlock, {
+    window.removeEventListener("wheel", this.changeBlock, {
       passive: true
     });
 
     window.removeEventListener("resize", this.resize);
-  }
-
-  calculateSliderWidth() {
-    this.sliderHeight = this.slidesNumb * window.screen.height;
-    this.max = -(this.sliderHeight - window.innerWidth);
   }
 
   resize() {
@@ -231,6 +193,9 @@ class Home extends React.Component {
   sliderInit() {
     this.setBounds();
     this.addEvents();
+    document.body.scroll = "no";
+    document.body.style.overflow = "hidden";
+    document.height = window.innerHeight;
   }
 
   inView = el => {
