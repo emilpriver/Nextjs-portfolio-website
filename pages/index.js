@@ -17,6 +17,7 @@ export async function unstable_getStaticProps() {
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.bind();
 
     this.state = {
       activeSlideProjectInfo: "",
@@ -25,18 +26,16 @@ class Home extends React.Component {
     };
 
     if (process.browser) {
-      this.slider = document.querySelector(".frontpage");
-      this.sliderInner = document.querySelector(".frontpage-carousell");
-      this.slides = [
-        ...this.slider.querySelectorAll(".frontpage-carousell-block")
+      this.carousell = document.querySelector(".frontpage");
+      this.carousellInner = document.querySelector(".frontpage-carousell");
+      this.items = [
+        ...this.carousell.querySelectorAll(".frontpage-carousell-block")
       ];
-      this.slidesNumb = this.slides.length;
-
-      this.centerX = window.innerWidth / 2;
+      this.totalSteps = this.items.length + 2;
+      this.totalStepsWithoutLast = this.items.length + 1;
     }
 
     this.step = 0;
-    this.steps = 0;
 
     this.projectTextRef = React.createRef();
   }
@@ -54,38 +53,20 @@ class Home extends React.Component {
       }
     });
 
-    this.sliderInit();
-    // this.toggleActiveElement();
-  }
-
-  setBounds() {
-    this.sliderHeight = this.slidesNumb * window.screen.height;
-    this.max = -(this.sliderHeight - window.screen.height);
-
-    this.slider.style.height = window.screen.height;
-
-    this.slides.forEach((slide, index) => {
-      slide.style.height = `${window.screen.height}px`;
-      slide.style.top = `${index * window.screen.height}px`;
-    });
-  }
-
-  sliderInit() {
-    this.setBounds();
+    this.carousellInit();
   }
 
   componentWillUnmount() {
     this.removeEvents();
   }
 
-  handleMovementBlocks() {}
+  setBounds() {
+    this.carousell.style.height = window.screen.height;
 
-  addEvents() {
-    window.addEventListener("wheel", this.handleMovementBlocks());
-  }
-
-  removeEvents() {
-    window.removeEventListener("wheel", this.handleMovementBlocks());
+    this.items.forEach((slide, index) => {
+      slide.style.height = `${window.screen.height}px`;
+      slide.style.top = `${window.screen.height}px`;
+    });
   }
 
   fadeLetters = (el, type) => {
@@ -105,6 +86,55 @@ class Home extends React.Component {
       });
     });
   };
+
+  fadeImages = (el, type) => {
+    return new Promise(resolve => {
+      anime({
+        targets: el.querySelectorAll(".image"),
+        translateY: type === "in" ? ["5px", 0] : [0, "5px"],
+        opacity: type === "in" ? [0, 1] : [1, 0],
+        easing: "spring(1, 80, 10, 0)",
+        duration: 1400,
+        delay: (element, i) => {
+          return 300 + 30 * i;
+        },
+        complete: () => {
+          resolve(true);
+        }
+      });
+    });
+  };
+
+  bind() {
+    ["handleMovementBlocks"].forEach(fn => (this[fn] = this[fn].bind(this)));
+  }
+
+  handleMovementBlocks(event) {
+    if (this.step === 0 && event.deltaY < 0) {
+      this.carousellInner.style.transform = `translate3d(0, ${window.screen.height}px, 0)`;
+      this.step = 1;
+    } else if (this.step === this.items.length + 2 && event.deltaY) {
+      this.carousellInner.style.transform = `translate3d(0, ${this
+        .totalStepsWithoutLast * window.screen.height}px, 0)`;
+      this.step = this.totalSteps;
+    } else {
+    }
+  }
+
+  addEvents() {
+    window.addEventListener("wheel", this.handleMovementBlocks, {
+      passive: true
+    });
+  }
+
+  removeEvents() {
+    window.removeEventListener("wheel", this.handleMovementBlocks);
+  }
+
+  carousellInit() {
+    this.setBounds();
+    this.addEvents();
+  }
 
   render() {
     const { projects } = this.props;
