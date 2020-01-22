@@ -17,7 +17,6 @@ export async function unstable_getStaticProps() {
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.bind();
 
     this.state = {
       activeSlideProjectInfo: "",
@@ -25,27 +24,19 @@ class Home extends React.Component {
       activeSlideSlug: ""
     };
 
-    this.opts = {
-      el: ".frontpage",
-      inner: ".frontpage-carousell",
-      slide: ".frontpage-carousell-block",
-      ease: 0.1,
-      speed: 1.5,
-      velocity: 25,
-      scroll: false
-    };
-
     if (process.browser) {
-      this.slider = document.querySelector(this.opts.el);
-      this.sliderInner = document.querySelector(this.opts.inner);
-      this.slides = [...this.slider.querySelectorAll(this.opts.slide)];
+      this.slider = document.querySelector(".frontpage");
+      this.sliderInner = document.querySelector(".frontpage-carousell");
+      this.slides = [
+        ...this.slider.querySelectorAll(".frontpage-carousell-block")
+      ];
       this.slidesNumb = this.slides.length;
 
       this.centerX = window.innerWidth / 2;
     }
 
-    this.lastY = 0;
-    this.currentY = 0;
+    this.step = 0;
+    this.steps = 0;
 
     this.projectTextRef = React.createRef();
   }
@@ -67,74 +58,6 @@ class Home extends React.Component {
     // this.toggleActiveElement();
   }
 
-  componentWillUnmount() {
-    this.removeEvents();
-  }
-
-  bind() {
-    ["resize"].forEach(fn => (this[fn] = this[fn].bind(this)));
-  }
-
-  getClosestNumber(goal) {
-    const parentSlide = this.slider.getBoundingClientRect();
-    const slideWidth = parentSlide.width;
-    const counts = [];
-
-    this.slides.forEach((slide, index) => {
-      counts.push(index * slideWidth);
-    });
-
-    return counts.reduce((prev, curr) => {
-      return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
-    });
-  }
-
-  getActiveIndex() {
-    const closestNumber = this.getClosestNumber(Math.abs(this.currentX));
-    const activeIndex = Math.floor(closestNumber / window.screen.height);
-    return activeIndex;
-  }
-
-  async fadeInFirstElement() {
-    const { projects } = this.props;
-    const element = projects[this.getActiveIndex()];
-
-    this.setState(
-      {
-        activeSlideProjectInfo: element?.acf?.project_info,
-        activeSlideTitle: element?.acf?.title,
-        activeSlideSlug: element?.acf?.slug
-      },
-      () => {
-        this.fadeLetters(this.projectTextRef.current, "in");
-      }
-    );
-  }
-
-  closest() {
-    const numbers = [];
-    this.slides.forEach(slide => {
-      const bounds = slide.getBoundingClientRect();
-      const diff = this.currentX - this.lastX;
-      const center = bounds.x + diff + bounds.width / 2;
-      const fromCenter = this.centerX - center;
-      numbers.push(fromCenter);
-    });
-
-    let closest = this.number(0, numbers);
-    closest = numbers[closest];
-
-    return {
-      closest
-    };
-  }
-
-  snap() {
-    const { closest } = this.closest();
-    this.currentX += closest;
-    this.clamp();
-  }
-
   setBounds() {
     this.sliderHeight = this.slidesNumb * window.screen.height;
     this.max = -(this.sliderHeight - window.screen.height);
@@ -147,68 +70,23 @@ class Home extends React.Component {
     });
   }
 
-  setTransformTopPosition(event) {
-    if (event.wheelDelta > 0) {
-      this.sliderInner.style.transform = `translate3d(0, ${this.currentY -
-        window.screen.height}px, 0) skewX(0)`;
-      this.currentY = window.screen.height - this.currentY;
-    } else {
-      this.sliderInner.style.transform = `translate3d(0, ${this.currentY +
-        window.screen.height}px, 0) skewX(0)`;
-      this.currentY = window.screen.height + this.currentY;
-    }
+  sliderInit() {
+    this.setBounds();
   }
 
-  changeBlock = e => {
-    console.log(e);
-    this.setTransformTopPosition(e);
-    this.lastY = this.lastY + window.screen.height;
-  };
+  componentWillUnmount() {
+    this.removeEvents();
+  }
+
+  handleMovementBlocks() {}
 
   addEvents() {
-    window.addEventListener("wheel", this.changeBlock, { passive: true });
-
-    window.addEventListener("resize", this.resize, false);
-    window.onresize = this.resize;
+    window.addEventListener("wheel", this.handleMovementBlocks());
   }
 
   removeEvents() {
-    window.removeEventListener("wheel", this.changeBlock, {
-      passive: true
-    });
-
-    window.removeEventListener("resize", this.resize);
+    window.removeEventListener("wheel", this.handleMovementBlocks());
   }
-
-  resize() {
-    this.setBounds();
-  }
-
-  destroy() {
-    this.removeEvents();
-
-    this.opts = {};
-  }
-
-  sliderInit() {
-    this.setBounds();
-    this.addEvents();
-    document.body.scroll = "no";
-    document.body.style.overflow = "hidden";
-    document.height = window.innerHeight;
-  }
-
-  inView = el => {
-    const bounding = el.getBoundingClientRect();
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth) &&
-      bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight)
-    );
-  };
 
   fadeLetters = (el, type) => {
     return new Promise(resolve => {
@@ -226,36 +104,6 @@ class Home extends React.Component {
         }
       });
     });
-  };
-
-  getClosest = (item, array, getDiff) => {
-    var closest;
-    var diff;
-
-    if (!Array.isArray(array)) {
-      throw new Error("Get closest expects an array as second argument");
-    }
-
-    array.forEach(function(comparedItem, comparedItemIndex) {
-      var thisDiff = getDiff(comparedItem, item);
-
-      if (thisDiff >= 0 && (typeof diff == "undefined" || thisDiff < diff)) {
-        diff = thisDiff;
-        closest = comparedItemIndex;
-      }
-    });
-
-    return closest;
-  };
-
-  number = (item, array) => {
-    return this.getClosest(item, array, function(comparedItem, item) {
-      return Math.abs(comparedItem - item);
-    });
-  };
-
-  lerp = (a, b, n) => {
-    return (1 - n) * a + n * b;
   };
 
   render() {
