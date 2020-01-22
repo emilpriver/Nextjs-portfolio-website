@@ -11,44 +11,6 @@ section#works {
         margin: 0 auto 30px auto;
     }
 
-    .js-slider {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        cursor: grab;
-
-        &.is-grabbing {
-            cursor: grabbing;
-        }
-
-        &--inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 800px;
-
-            &--item {
-                box-sizing: border-box;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-48%);
-            }
-        }
-    }
-
-    .js-slider-wrapper {
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        background-color: #111;
-        user-select: none;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        height: 610px;
-    }
-
     .wrapper {
         position: relative;
 

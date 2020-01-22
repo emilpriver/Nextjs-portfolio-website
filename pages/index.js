@@ -26,9 +26,9 @@ class Home extends React.Component {
     };
 
     this.opts = {
-      el: ".js-slider",
-      inner: ".js-slider--inner",
-      slide: ".js-slider--inner--item",
+      el: ".frontpage",
+      inner: ".frontpage-carousell",
+      slide: ".frontpage-carousell-block",
       ease: 0.1,
       speed: 1.5,
       velocity: 25,
@@ -70,7 +70,7 @@ class Home extends React.Component {
     });
 
     this.sliderInit();
-    this.toggleActiveElement();
+    // this.toggleActiveElement();
   }
 
   componentWillUnmount() {
@@ -78,21 +78,16 @@ class Home extends React.Component {
   }
 
   bind() {
-    ["setPos", "run", "on", "off", "resize"].forEach(
-      fn => (this[fn] = this[fn].bind(this))
-    );
+    ["setPos", "resize"].forEach(fn => (this[fn] = this[fn].bind(this)));
   }
 
   setBounds() {
-    const parentSlide = this.slider.getBoundingClientRect();
-    const slideWidth = parentSlide.width;
-
-    this.sliderWidth = this.slidesNumb * slideWidth;
-    this.max = -(this.sliderWidth - window.innerWidth);
+    this.sliderHeight = this.slidesNumb * window.screen.height;
+    this.max = -(this.sliderHeight - window.screen.height);
 
     this.slides.forEach((slide, index) => {
-      slide.style.width = `${parentSlide.width}px`;
-      slide.style.left = `${index * slideWidth}px`;
+      slide.style.height = `${window.screen.height}px`;
+      slide.style.top = `${index * window.screen.height}px`;
     });
   }
 
@@ -114,11 +109,9 @@ class Home extends React.Component {
     const acc = sd / window.innerWidth;
     const velo = +acc;
 
-    this.sliderInner.style.transform = `translate3d(${
+    this.sliderInner.style.transform = `translate3d(0, ${
       this.lastX
-    }px, 0, 0) skewX(${velo * this.opts.velocity}deg)`;
-
-    this.requestAnimationFrame();
+    }px, 0) skewX(${velo * this.opts.velocity}deg)`;
   }
 
   getClosestNumber(goal) {
@@ -136,58 +129,14 @@ class Home extends React.Component {
   }
 
   getActiveIndex() {
-    const parentSlide = this.slider.getBoundingClientRect();
     const closestNumber = this.getClosestNumber(Math.abs(this.currentX));
-    const activeIndex = Math.floor(closestNumber / parentSlide.width);
+    const activeIndex = Math.floor(closestNumber / window.screen.height);
     return activeIndex;
   }
 
   async fadeInFirstElement() {
     const { projects } = this.props;
     const element = projects[this.getActiveIndex()];
-
-    this.setState(
-      {
-        activeSlideProjectInfo: element?.acf?.project_info,
-        activeSlideTitle: element?.acf?.title,
-        activeSlideSlug: element?.acf?.slug
-      },
-      () => {
-        this.fadeLetters(this.projectTextRef.current, "in");
-      }
-    );
-  }
-
-  toggleActiveElement() {
-    const activeIndex = this.getActiveIndex();
-
-    this.slides.forEach((slide, index) => {
-      if (slide && index !== activeIndex) {
-        slide.classList.remove("active");
-      }
-    });
-
-    const activeElement = this.slides[activeIndex];
-    if (activeElement) {
-      activeElement.classList.add("active");
-    }
-  }
-
-  on(e) {
-    this.isDragging = true;
-    this.onX = e.clientX;
-    this.slider.classList.add("is-grabbing");
-  }
-
-  off() {
-    const { projects } = this.props;
-    const element = projects[this.getActiveIndex()];
-
-    this.snap();
-    this.isDragging = false;
-    this.offX = this.currentX;
-    this.slider.classList.remove("is-grabbing");
-    this.toggleActiveElement();
 
     this.setState(
       {
@@ -225,50 +174,48 @@ class Home extends React.Component {
     this.clamp();
   }
 
-  requestAnimationFrame() {
-    this.rAF = requestAnimationFrame(this.run);
+  setTransformTopPosition() {
+    this.lastX = this.lerp(this.lastX, this.currentX, this.opts.ease);
+    this.lastX = Math.floor(this.lastX * 100) / 100;
+
+    const sd = this.currentX - this.lastX;
+    const acc = sd / window.screen.height;
+    const velo = +acc;
+
+    this.sliderInner.style.transform = `translate3d(0, ${-1050}px, 0) skewX(0)`;
   }
 
-  cancelAnimationFrame() {
-    cancelAnimationFrame(this.rAF);
-  }
+  changeBlock = () => {
+    this.lastX = this.lerp(this.lastX, this.currentX, this.opts.ease);
+    this.lastX = Math.floor(this.lastX * 100) / 100;
+
+    const sd = this.currentX - this.lastX;
+    const acc = sd / window.screen.height;
+    const velo = +acc;
+
+    this.sliderInner.style.transform = `translate3d(0, ${-1050}px, 0) skewX(0)`;
+  };
 
   addEvents() {
     this.run();
 
-    this.slider.addEventListener("mousemove", this.setPos, { passive: true });
-    this.slider.addEventListener("mousedown", this.on, false);
-    this.slider.addEventListener("mouseup", this.off, false);
-    this.slider.addEventListener("touchmove", this.setPos, { passive: true });
-    this.slider.addEventListener("touchstart", this.on, false);
-    this.slider.addEventListener("touchend", this.off, false);
+    window.addEventListener("scroll", this.changeBlock, { passive: true });
 
     window.addEventListener("resize", this.resize, false);
     window.onresize = this.resize;
   }
 
   removeEvents() {
-    this.cancelAnimationFrame(this.rAF);
-
-    this.slider.removeEventListener("mousemove", this.setPos, {
+    window.removeEventListener("scroll", this.changeBlock, {
       passive: true
     });
-    this.slider.removeEventListener("mousedown", this.on, false);
-    this.slider.removeEventListener("mouseup", this.off, false);
-    this.slider.removeEventListener("touchmove", this.setPos, {
-      passive: true
-    });
-    this.slider.removeEventListener("touchstart", this.on, false);
-    this.slider.removeEventListener("touchend", this.off, false);
 
     window.removeEventListener("resize", this.resize);
   }
 
   calculateSliderWidth() {
-    const parentSlide = this.slider.getBoundingClientRect();
-    const slideWidth = parentSlide.width;
-    this.sliderWidth = this.slidesNumb * slideWidth;
-    this.max = -(this.sliderWidth - window.innerWidth);
+    this.sliderHeight = this.slidesNumb * window.screen.height;
+    this.max = -(this.sliderHeight - window.innerWidth);
   }
 
   resize() {
@@ -284,10 +231,6 @@ class Home extends React.Component {
   sliderInit() {
     this.setBounds();
     this.addEvents();
-    setTimeout(() => {
-      this.toggleActiveElement();
-      this.fadeInFirstElement();
-    }, 200);
   }
 
   inView = el => {
@@ -361,76 +304,49 @@ class Home extends React.Component {
       <>
         <Head title="Emil Privér - System Egineer in Borås" />
         <Nav />
-        <section id="hero">
-          <div className="container wrapper">
-            <h1>
-              <span className="anime-words">I </span>
-              <span className="anime-words">am</span>
-              <span className="anime-words">Emil</span>
-              <span className="anime-words">Priver.</span>
-              <br />
-              <span className="anime-words">A</span>
-              <span className="anime-words">developer</span>
-              <span className="anime-words">based</span>
-              <span className="anime-words">in</span>
-              <span className="anime-words">Borås,</span>
-              <span className="anime-words">Sweden</span>
-            </h1>
-            <h3>
-              <span className="anime-words">Currently</span>
-              <div className="anime-words">working</div>
-              <div className="anime-words">at</div>
-              <div className="anime-words">Rivercode,</div>
-              <br />
-              <span className="anime-words">Creating</span>
-              <div className="anime-words">digital</div>
-              <div className="anime-words">experiencies.</div>
-            </h3>
-          </div>
-        </section>
-        <section id="works">
-          <div className="wrapper mx-auto">
-            <h2 className="title">Latest Works</h2>
-            <div className="js-slider-wrapper">
-              <div className="js-slider">
-                <div className="js-slider--inner">
-                  {projects.map(item => (
-                    <div
-                      className="project js-slider--inner--item"
-                      key={item.acf.slug}
-                    >
-                      <div className="project_wrapper">
-                        <div className="image">
-                          <img
-                            src={item.acf.thumbnail}
-                            alt={item.title.rendered}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+        <div className="frontpage">
+          <div className="frontpage-carousell">
+            <div className="frontpage-carousell-block" id="hero">
+              <div className="container wrapper">
+                <h1>
+                  <span className="anime-words">I </span>
+                  <span className="anime-words">am</span>
+                  <span className="anime-words">Emil</span>
+                  <span className="anime-words">Priver.</span>
+                  <br />
+                  <span className="anime-words">A</span>
+                  <span className="anime-words">developer</span>
+                  <span className="anime-words">based</span>
+                  <span className="anime-words">in</span>
+                  <span className="anime-words">Borås,</span>
+                  <span className="anime-words">Sweden</span>
+                </h1>
+                <h3>
+                  <span className="anime-words">Currently</span>
+                  <div className="anime-words">working</div>
+                  <div className="anime-words">at</div>
+                  <div className="anime-words">Rivercode,</div>
+                  <br />
+                  <span className="anime-words">Creating</span>
+                  <div className="anime-words">digital</div>
+                  <div className="anime-words">experiencies.</div>
+                </h3>
+              </div>
+            </div>
+            {projects.map(item => (
+              <div
+                className="project frontpage-carousell-block"
+                key={item.acf.slug}
+              >
+                <div className="project_wrapper">
+                  <div className="image">
+                    <img src={item.acf.thumbnail} alt={item.title.rendered} />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="project--text" ref={this.projectTextRef}>
-              <div className="project--text-wrapper">
-                <h4 className="toggle-transition-element">
-                  <div className="words">{activeSlideProjectInfo}</div>
-                </h4>
-                <h2 className="toggle-transition-element">
-                  <div className="words">{activeSlideTitle}</div>
-                </h2>
-                <Link href={`/project/${activeSlideSlug}`}>
-                  <a className="toggle-transition-element">
-                    <div className="words">Go</div>
-                    <div className="words">To</div>
-                    <div className="words">Project</div>
-                  </a>
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
       </>
     );
   }

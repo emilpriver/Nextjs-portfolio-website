@@ -1,0 +1,8 @@
+.frontpage-carousell {
+    transition: all 0.3s;
+    transition-timing-function: ease-in;
+
+    &-block {
+        width: 100%;
+    }
+}
