@@ -14,6 +14,10 @@ export async function unstable_getStaticProps() {
   return { props: { projects: data } };
 }
 
+/**
+ * @todo Add floating elements behind all text on the hero
+ */
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
