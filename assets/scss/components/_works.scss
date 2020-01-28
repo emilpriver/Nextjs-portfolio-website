@@ -1,108 +1,60 @@
-section#works {
-    margin-bottom: 200px;
-
-    .title {
-        font-size: 140px;
-        letter-spacing: 1.3px;
-        font-weight: 500;
-        color: #fff;
-        text-align: left;
-        max-width: 1200px;
-        margin: 0 auto 30px auto;
+.frontpage-carousell-block {
+    &.last-block {
+        position: absolute;
     }
 
-    .wrapper {
-        position: relative;
+    &-item {
+        width: 100%;
+        float: left;
+        position: absolute;
+        opacity: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        .project {
-            margin-bottom: 200px;
+        &-wrapper {
+            max-width: 1600px;
             width: 100%;
-            float: left;
-            position: absolute;
+            margin: 0 auto;
+            position: relative;
+            height: 800px;
 
-            .project_wrapper {
-                max-width: 1200px;
-                margin: 0 auto;
-                position: relative;
+            .image {
+                height: 100%;
+                width: 50%;
+                margin-bottom: 30px;
+                pointer-events: none;
+                overflow: hidden;
+                border-radius: 10px;
+                float: left;
 
-                .image {
-                    height: 600px;
+                img {
+                    object-fit: cover;
+                    height: 100%;
                     width: 100%;
-                    margin-bottom: 30px;
-                    pointer-events: none;
-                    overflow: hidden;
-                    border-radius: 10px;
-
-                    img {
-                        object-fit: cover;
-                        height: 100%;
-                        width: 100%;
-                        border-radius: 4px;
-                    }
+                    border-radius: 4px;
                 }
             }
         }
 
-        .project--text {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
+        &-title {
+            width: 50%;
+            height: 100%;
+            float: left;
+            padding: 50px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
 
-            &-wrapper {
-                padding: 50px 0 0 50px;
-                box-sizing: border-box;
+            h3 {
+                font-size: 50px;
+                font-family: $font;
+                font-weight: 500;
 
-                h2 {
-                    font-size: 60px;
-                    font-weight: 500;
-                    font-family: $font;
-                    margin: 0;
-                    letter-spacing: 2px;
-                    margin-bottom: 0;
-                }
-
-                h4 {
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: $green;
-                    margin: 0;
-                    letter-spacing: 1px;
-                    font-family: $font;
-                }
-
-                a {
-                    margin: 0;
-                    letter-spacing: 2px;
-                    font-family: $font;
-                    font-weight: 500;
-                    font-size: 15px;
-                    position: relative;
-                    letter-spacing: 1px;
-
-                    &::after {
-                        content: " ";
-                        display: block;
-                        position: absolute;
-                        bottom: -10px;
-                        left: 0;
-                        width: 100%;
-                        background: #fff;
-                    }
-
-                    .words {
-                        float: left;
-                        margin-right: 5px;
-                    }
-                }
-
-                h2,
-                h4,
-                a {
-                    .words {
-                        transform: translateY(5px);
-                        display: inline-block;
-                        opacity: 0;
-                    }
+                .words {
+                    margin-right: 10px;
+                    float: left;
                 }
             }
         }

@@ -68,16 +68,16 @@ class Home extends React.Component {
   }
 
   setBounds() {
-    this.carousell.style.height = window.screen.height;
+    this.carousell.style.height = window.innerHeight;
 
     this.items.forEach(slide => {
-      slide.style.height = `${window.screen.height}px`;
+      slide.style.height = `${window.innerHeight}px`;
       slide.style.top = `${window.screen.height}px`;
     });
 
-    this.hero.current.style.height = `${window.screen.height}px`;
+    this.hero.current.style.height = `${window.innerHeight}px`;
     this.hero.current.style.top = 0;
-    this.lastElement.current.style.height = `${window.screen.height}px`;
+    this.lastElement.current.style.height = `${window.innerHeight}px`;
     this.lastElement.current.style.top = `${window.screen.height * 2}px`;
   }
 
@@ -88,7 +88,7 @@ class Home extends React.Component {
         translateY: type === "in" ? ["5px", 0] : [0, "5px"],
         opacity: type === "in" ? [0, 1] : [1, 0],
         easing: "spring(1, 80, 10, 0)",
-        duration: 1400,
+        duration: 1,
         delay: (element, i) => {
           return 300 + 30 * i;
         },
@@ -106,14 +106,9 @@ class Home extends React.Component {
         translateY: type === "in" ? ["5px", 0] : [0, "5px"],
         opacity: type === "in" ? [0, 1] : [1, 0],
         easing: "spring(1, 80, 10, 0)",
-        duration: 1400,
-        delay: (element, i) => {
-          return 300 + 30 * i;
-        },
-        complete: () => {
-          resolve(true);
-        }
+        duration: 200
       });
+      resolve("true");
     });
   };
 
@@ -133,6 +128,11 @@ class Home extends React.Component {
           .height}px, 0)`;
         this.step = 1;
 
+        const firstElement = this.items[0];
+        firstElement.style.opacity = 1;
+        this.fadeLetters(firstElement, "in");
+        this.fadeImage(firstElement, "in");
+
         /**
          * If scroll is at the bottom
          */
@@ -144,7 +144,7 @@ class Home extends React.Component {
         /**
          * if scroll is at a project
          */
-        if (this.step - 1 === this.items.length && event.deltaY < 0) {
+        if (this.step === this.items.length && event.deltaY > 0) {
           this.carousellInner.style.transform = `translate3d(0, ${2 *
             -window.screen.height}px, 0)`;
           this.step = this.totalSteps;
@@ -155,21 +155,34 @@ class Home extends React.Component {
           this.step = 1;
         }
 
-        const oldElement = this.items[this.step - 1];
-        if (this.step === 2) {
-          await this.fadeLetters(oldElement, "in");
-          await this.fadeImage(oldElement, "out");
+        if (this.step === 1) {
+          const firstElement = this.items[0];
+          Promise.all([
+            this.fadeLetters(firstElement, "out"),
+            this.fadeImage(firstElement, "out")
+          ]);
+          firstElement.style.opacity = 0;
         }
-        this.step += 1;
-        const element = this.items[this.step - 1];
-        if (this.step === 2) {
-          await this.fadeLetters(element, "in");
-          await this.fadeImage(element, "out");
-        }
+
+        console.log(this.step);
+        const oldElement = this.items[this.step];
+        Promise.all([
+          this.fadeLetters(oldElement, "out"),
+          this.fadeImage(oldElement, "out"),
+          (oldElement.style.opacity = 0)
+        ]);
+
+        this.step = event.deltaY < 0 ? this.step + 1 : this.step - 1;
+
+        const element = this.items[this.step];
+        element.style.opacity = 1;
+        Promise.all([
+          this.fadeLetters(element, "in"),
+          this.fadeImage(element, "in")
+        ]);
       }
-      console.log(this.step);
+      this.isMoving = false;
     }
-    this.isMoving = false;
   }
 
   addEvents() {
@@ -236,15 +249,39 @@ class Home extends React.Component {
                 className="project frontpage-carousell-block frontpage-carousell-block-item"
                 key={item.acf.slug}
               >
-                <div className="project_wrapper">
+                <div className="frontpage-carousell-block-item-wrapper">
                   <div className="image">
                     <img src={item.acf.thumbnail} alt={item.title.rendered} />
+                  </div>
+                  <div className="frontpage-carousell-block-item-title">
+                    <div className="frontpage-carousell-block-item-title-wrapper">
+                      <h3>
+                        {item.title.rendered.split(" ").map(el => {
+                          return (
+                            <div className="words" key={el}>
+                              {el}
+                            </div>
+                          );
+                        })}
+                      </h3>
+                      {item.project_info ? (
+                        <div className="frontpage-carousell-block-item-title-wrapper-project-info">
+                          {item.project_info.split(" ").map(el => {
+                            return (
+                              <div className="words" key={el}>
+                                {el}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
             <div
-              className="frontpage-carousell-block"
+              className="frontpage-carousell-block last-block"
               ref={this.lastElement}
               id="hero"
             >
