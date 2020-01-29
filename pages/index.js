@@ -29,13 +29,6 @@ class Home extends React.Component {
       activeSlideSlug: ""
     };
 
-    if (process.browser) {
-      this.carousell = document.querySelector(".frontpage");
-      this.items = [
-        ...this.carousell.querySelectorAll(".frontpage-carousell-block-item")
-      ];
-    }
-
     this.projectTextRef = React.createRef();
     this.hero = React.createRef();
     this.lastElement = React.createRef();
@@ -67,13 +60,13 @@ class Home extends React.Component {
   fadeLetters = (el, type) => {
     return new Promise(resolve => {
       anime({
-        targets: el.querySelectorAll(".words"),
+        targets: el,
         translateY: type === "in" ? ["5px", 0] : [0, "5px"],
         opacity: type === "in" ? [0, 1] : [1, 0],
         easing: "spring(1, 80, 10, 0)",
         duration: 1,
         delay: (element, i) => {
-          return 330 * i;
+          return 150 * i;
         },
         complete: () => {
           resolve(true);
@@ -96,50 +89,38 @@ class Home extends React.Component {
   };
 
   bind() {
-    ["handleMovementBlocks", "isElementInViewport", "fadeLetters"].forEach(
-      fn => (this[fn] = this[fn].bind(this))
-    );
+    ["handleMovementBlocks"].forEach(fn => (this[fn] = this[fn].bind(this)));
   }
 
   handleMovementBlocks = () => {
-    this.items.forEach(async el => {
-      const style = window.getComputedStyle(el.querySelector(".words"));
-      if (this.isElementInViewport(el) && style.opacity === "") {
-        await this.fadeLetters(el, "in");
-      } else {
-        if (style.display === 1) {
-          await this.fadeLetters(el, "out");
-        }
+    const items = document.querySelectorAll(".frontpage-carousell-block-item");
+    items.forEach(el => {
+      const style = window.getComputedStyle(el.querySelector(".animate-title"));
+      const words = el.querySelector(".animate-title");
+      if (this.isElementInViewport(words) && parseFloat(style.opacity) === 0) {
+        this.fadeLetters(el.querySelectorAll(".animate-title"), "in");
+        this.fadeLetters(el.querySelectorAll(".animate-project-info"), "in");
+        this.fadeLetters(el.querySelectorAll(".animate-link"), "in");
       }
     });
-
-    requestAnimationFrame(this.handleMovementBlocks);
   };
 
   isElementInViewport = el => {
     const rect = el.getBoundingClientRect();
     return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      rect.bottom > 0 &&
+      rect.right > 0 &&
+      rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+      rect.top + 200 <
+        (window.innerHeight || document.documentElement.clientHeight)
     );
   };
 
   addEvents() {
     if (window.addEventListener) {
-      window.addEventListener(
-        "DOMContentLoaded",
-        this.handleMovementBlocks,
-        false
-      );
-      window.addEventListener("load", this.handleMovementBlocks, false);
       window.addEventListener("scroll", this.handleMovementBlocks, false);
       window.addEventListener("resize", this.handleMovementBlocks, false);
     } else if (window.attachEvent) {
-      window.attachEvent("onDOMContentLoaded", this.handleMovementBlocks); // IE9+ :(
-      window.attachEvent("onload", this.handleMovementBlocks);
       window.attachEvent("onscroll", this.handleMovementBlocks);
       window.attachEvent("onresize", this.handleMovementBlocks);
     }
@@ -147,15 +128,11 @@ class Home extends React.Component {
 
   removeEvents() {
     if (window.addEventListener) {
-      addEventListener("DOMContentLoaded", this.handleMovementBlocks, false);
-      addEventListener("load", this.handleMovementBlocks, false);
-      addEventListener("scroll", this.handleMovementBlocks, false);
-      addEventListener("resize", this.handleMovementBlocks, false);
+      window.addEventListener("scroll", this.handleMovementBlocks, false);
+      window.addEventListener("resize", this.handleMovementBlocks, false);
     } else if (window.attachEvent) {
-      attachEvent("onDOMContentLoaded", this.handleMovementBlocks); // IE9+ :(
-      attachEvent("onload", this.handleMovementBlocks);
-      attachEvent("onscroll", this.handleMovementBlocks);
-      attachEvent("onresize", this.handleMovementBlocks);
+      window.attachEvent("onscroll", this.handleMovementBlocks);
+      window.attachEvent("onresize", this.handleMovementBlocks);
     }
   }
 
@@ -195,6 +172,7 @@ class Home extends React.Component {
                     <a
                       href="https://www.google.com/maps/place/Borås/@57.724734,12.8920644,13z/data=!3m1!4b1!4m5!3m4!1s0x465aa0b04bdcfeed:0x7c327e8fc1abfa59!8m2!3d57.721035!4d12.939819"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Borås
                     </a>
@@ -204,12 +182,11 @@ class Home extends React.Component {
                     <a
                       href="https://www.google.com/maps/place/Sverige/@61.7514617,8.4252509,5z/data=!3m1!4b1!4m5!3m4!1s0x465cb2396d35f0f1:0x22b8eba28dad6f62!8m2!3d60.128161!4d18.643501"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Sweden.
                     </a>
                   </span>
-                </h1>
-                <h3>
                   <span className="anime-words">Currently</span>
                   <span className="anime-words">working</span>
                   <span className="anime-words">at</span>
@@ -222,7 +199,7 @@ class Home extends React.Component {
                   <span className="anime-words">Creating</span>
                   <span className="anime-words">digital</span>
                   <span className="anime-words">experiencies.</span>
-                </h3>
+                </h1>
                 <div className="socials">
                   <a
                     href="https://twitter.com/emil_priver"
@@ -268,29 +245,27 @@ class Home extends React.Component {
                 key={item.acf.slug}
               >
                 <div className="frontpage-carousell-block-item-wrapper">
-                  <div className="image">
-                    <img src={item.acf.thumbnail} alt={item.title.rendered} />
-                  </div>
+                  <Link href={`/project/${item.acf.slug}`}>
+                    <a>
+                      <div
+                        className="image"
+                        style={{ backgroundColor: item.acf.background_color }}
+                      >
+                        <img
+                          src={item.acf.image_for_projects_page.url}
+                          alt={item.title.rendered}
+                        />
+                      </div>
+                    </a>
+                  </Link>
                   <div className="frontpage-carousell-block-item-title">
                     <div className="frontpage-carousell-block-item-title-wrapper">
-                      <h3>
-                        {item.title.rendered.split(" ").map((el, index) => {
-                          return (
-                            <div
-                              className="words"
-                              key={item.title.rendered + index + el}
-                            >
-                              {el}
-                            </div>
-                          );
-                        })}
-                      </h3>
                       {item.acf.project_info ? (
                         <div className="frontpage-carousell-block-item-title-wrapper-project-info">
                           {item.acf.project_info.split(" ").map((el, index) => {
                             return (
                               <div
-                                className="words"
+                                className="animate-project-info"
                                 key={item.title.rendered + index + el}
                               >
                                 {el}
@@ -299,6 +274,25 @@ class Home extends React.Component {
                           })}
                         </div>
                       ) : null}
+                      <h2>
+                        {item.title.rendered.split(" ").map((el, index) => {
+                          return (
+                            <div
+                              className="animate-title"
+                              key={item.title.rendered + index + el}
+                            >
+                              {el}
+                            </div>
+                          );
+                        })}
+                      </h2>
+                      <div className="frontpage-carousell-block-item-title-wrapper-link">
+                        <div className="animate-link">
+                          <Link href={`/project/${item.slug}`}>
+                            <a>Go to project</a>
+                          </Link>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

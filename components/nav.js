@@ -8,7 +8,7 @@ const Nav = () => (
     <div className="wrapper mx-auto">
       <div className="logo w-1/4 float-left">
         <img
-          src="https://cdn.privv.cloud/emilpriver/logo_white.png"
+          src="https://cdn.privv.cloud/emilpriver/logo_black.png"
           alt="Emil Priver"
         />
       </div>
