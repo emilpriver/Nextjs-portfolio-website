@@ -14,7 +14,38 @@ header#nav {
                 max-width: 130px;
                 height: auto;
                 width: auto;
+                cursor: pointer;
                 display: block;
+            }
+        }
+
+        .links {
+            a {
+                font-size: 20px;
+                font-weight: 500;
+                font-family: sofia-pro, sans-serif;
+                position: relative;
+
+                &:after {
+                    background: rgba(0, 0, 0, 0.24);
+                    content: " ";
+                    display: block;
+                    height: 3px;
+                    width: 100%;
+                    position: absolute;
+                    bottom: -3px;
+                    left: 0;
+                    opacity: 0;
+                    transform: translateY(5px);
+                    transition: all 0.3s;
+                }
+
+                &:hover {
+                    &:after {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
             }
         }
     }

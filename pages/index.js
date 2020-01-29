@@ -111,7 +111,7 @@ class Home extends React.Component {
       rect.bottom > 0 &&
       rect.right > 0 &&
       rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
-      rect.top + 200 <
+      rect.top + 100 <
         (window.innerHeight || document.documentElement.clientHeight)
     );
   };
@@ -245,7 +245,7 @@ class Home extends React.Component {
                 key={item.acf.slug}
               >
                 <div className="frontpage-carousell-block-item-wrapper">
-                  <Link href={`/project/${item.acf.slug}`}>
+                  <Link href="/project/[slug]" as={`/project/${item.acf.slug}`}>
                     <a>
                       <div
                         className="image"
@@ -288,7 +288,10 @@ class Home extends React.Component {
                       </h2>
                       <div className="frontpage-carousell-block-item-title-wrapper-link">
                         <div className="animate-link">
-                          <Link href={`/project/${item.slug}`}>
+                          <Link
+                            href="/project/[slug]"
+                            as={`/project/${item.acf.slug}`}
+                          >
                             <a>Go to project</a>
                           </Link>
                         </div>
