@@ -17,6 +17,7 @@ div#hero {
         h1 {
             font-size: 120px;
             font-weight: 500;
+            margin-top: 0;
             font-family: $font;
 
             & .anime-words {
@@ -45,7 +46,7 @@ div#hero {
             position: relative;
 
             &:after {
-                background: linear-gradient(to right, rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0.24) 100%);
+                background: rgba(255, 255, 255, 0.24);
                 content: " ";
                 display: block;
                 height: 5px;
@@ -62,6 +63,24 @@ div#hero {
                 &:after {
                     opacity: 1;
                     transform: translateY(0);
+                }
+            }
+        }
+
+        .socials {
+            margin-top: 200px;
+
+            a {
+                transform: translateY(10px);
+                display: inline-block;
+                opacity: 0;
+                margin-right: 20px;
+                font-size: 30px;
+                font-weight: 500;
+                color: #fff;
+
+                &:after {
+                    height: 4px;
                 }
             }
         }

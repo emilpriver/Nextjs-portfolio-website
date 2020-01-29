@@ -31,16 +31,10 @@ class Home extends React.Component {
 
     if (process.browser) {
       this.carousell = document.querySelector(".frontpage");
-      this.carousellInner = document.querySelector(".frontpage-carousell");
       this.items = [
         ...this.carousell.querySelectorAll(".frontpage-carousell-block-item")
       ];
-      this.totalSteps = this.items.length + 2;
-      this.totalStepsWithoutLast = this.items.length + 1;
     }
-
-    this.step = 0;
-    this.isMoving = false;
 
     this.projectTextRef = React.createRef();
     this.hero = React.createRef();
@@ -61,6 +55,9 @@ class Home extends React.Component {
     });
 
     this.carousellInit();
+    setTimeout(() => {
+      this.slideInSocials();
+    }, 800);
   }
 
   componentWillUnmount() {
@@ -76,7 +73,7 @@ class Home extends React.Component {
         easing: "spring(1, 80, 10, 0)",
         duration: 1,
         delay: (element, i) => {
-          return 300 + 30 * i;
+          return 330 * i;
         },
         complete: () => {
           resolve(true);
@@ -85,60 +82,81 @@ class Home extends React.Component {
     });
   };
 
-  fadeImage = (el, type) => {
-    return new Promise(resolve => {
-      anime({
-        targets: el.querySelectorAll(".image"),
-        translateY: type === "in" ? ["5px", 0] : [0, "5px"],
-        opacity: type === "in" ? [0, 1] : [1, 0],
-        easing: "spring(1, 80, 10, 0)",
-        duration: 200
-      });
-      resolve("true");
-    });
-  };
-
-  scrollWindowTo = number => {
-    return new Promise(resolve => {
-      anime({
-        targets: this.carousellInner,
-        translateY: number,
-        duration: 200,
-        complete: () => {
-          resolve("true");
-        }
-      });
+  slideInSocials = () => {
+    anime({
+      targets: document.querySelectorAll(".socials a"),
+      translateY: ["5px", 0],
+      opacity: [0, 1],
+      easing: "spring(1, 80, 10, 0)",
+      duration: 1,
+      delay: (element, i) => {
+        return 250 * i;
+      }
     });
   };
 
   bind() {
-    ["handleMovementBlocks"].forEach(fn => (this[fn] = this[fn].bind(this)));
+    ["handleMovementBlocks", "fadeLetters"].forEach(
+      fn => (this[fn] = this[fn].bind(this))
+    );
   }
 
-  async handleMovementBlocks(event) {
-    if (!this.isMoving) {
-      this.isMoving = true;
-
-      if (event.deltaY > 0) {
-        this.step += 1;
+  handleMovementBlocks = () => {
+    this.items.forEach(async el => {
+      const style = window.getComputedStyle(el.querySelector(".words"));
+      if (this.isElementInViewport(el) && style.opacity === "") {
+        await this.fadeLetters(el, "in");
       } else {
-        this.step -= 1;
+        if (style.display === 1) {
+          await this.fadeLetters(el, "out");
+        }
       }
+    });
 
-      await this.scrollWindowTo(`-${this.step * window.innerHeight}px`);
+    requestAnimationFrame(this.handleMovementBlocks);
+  };
 
-      this.isMoving = false;
+  isElementInViewport = el => {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  };
+
+  addEvents() {
+    if (window.addEventListener) {
+      window.addEventListener(
+        "DOMContentLoaded",
+        this.handleMovementBlocks,
+        false
+      );
+      window.addEventListener("load", this.handleMovementBlocks, false);
+      window.addEventListener("scroll", this.handleMovementBlocks, false);
+      window.addEventListener("resize", this.handleMovementBlocks, false);
+    } else if (window.attachEvent) {
+      window.attachEvent("onDOMContentLoaded", this.handleMovementBlocks); // IE9+ :(
+      window.attachEvent("onload", this.handleMovementBlocks);
+      window.attachEvent("onscroll", this.handleMovementBlocks);
+      window.attachEvent("onresize", this.handleMovementBlocks);
     }
   }
 
-  addEvents() {
-    // window.addEventListener("wheel", this.handleMovementBlocks, {
-    //   passive: true
-    // });
-  }
-
   removeEvents() {
-    window.removeEventListener("wheel", this.handleMovementBlocks);
+    if (window.addEventListener) {
+      addEventListener("DOMContentLoaded", this.handleMovementBlocks, false);
+      addEventListener("load", this.handleMovementBlocks, false);
+      addEventListener("scroll", this.handleMovementBlocks, false);
+      addEventListener("resize", this.handleMovementBlocks, false);
+    } else if (window.attachEvent) {
+      attachEvent("onDOMContentLoaded", this.handleMovementBlocks); // IE9+ :(
+      attachEvent("onload", this.handleMovementBlocks);
+      attachEvent("onscroll", this.handleMovementBlocks);
+      attachEvent("onresize", this.handleMovementBlocks);
+    }
   }
 
   carousellInit() {
@@ -205,6 +223,43 @@ class Home extends React.Component {
                   <span className="anime-words">digital</span>
                   <span className="anime-words">experiencies.</span>
                 </h3>
+                <div className="socials">
+                  <a
+                    href="https://twitter.com/emil_priver"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Twitter.
+                  </a>
+                  <a
+                    href="https://www.instagram.com/emil_priver/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Instagram.
+                  </a>
+                  <a
+                    href="https://github.com/emilpriver"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Github.
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/emilpriver/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Linkedin.
+                  </a>
+                  <a
+                    href="mailto:emil@priver.dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Mail.
+                  </a>
+                </div>
               </div>
             </div>
             {projects.map(item => (
@@ -219,9 +274,12 @@ class Home extends React.Component {
                   <div className="frontpage-carousell-block-item-title">
                     <div className="frontpage-carousell-block-item-title-wrapper">
                       <h3>
-                        {item.title.rendered.split(" ").map(el => {
+                        {item.title.rendered.split(" ").map((el, index) => {
                           return (
-                            <div className="words" key={el}>
+                            <div
+                              className="words"
+                              key={item.title.rendered + index + el}
+                            >
                               {el}
                             </div>
                           );
@@ -229,9 +287,12 @@ class Home extends React.Component {
                       </h3>
                       {item.acf.project_info ? (
                         <div className="frontpage-carousell-block-item-title-wrapper-project-info">
-                          {item.acf.project_info.split(" ").map(el => {
+                          {item.acf.project_info.split(" ").map((el, index) => {
                             return (
-                              <div className="words" key={el}>
+                              <div
+                                className="words"
+                                key={item.title.rendered + index + el}
+                              >
                                 {el}
                               </div>
                             );
@@ -246,34 +307,7 @@ class Home extends React.Component {
             <div
               className="frontpage-carousell-block last-block"
               ref={this.lastElement}
-              id="hero"
-            >
-              <div className="container wrapper">
-                <h1>
-                  <span className="anime-words">I </span>
-                  <span className="anime-words">am</span>
-                  <span className="anime-words">Emil</span>
-                  <span className="anime-words">Priver.</span>
-                  <br />
-                  <span className="anime-words">A</span>
-                  <span className="anime-words">developer</span>
-                  <span className="anime-words">based</span>
-                  <span className="anime-words">in</span>
-                  <span className="anime-words">Borås,</span>
-                  <span className="anime-words">Sweden</span>
-                </h1>
-                <h3>
-                  <span className="anime-words">Currently</span>
-                  <div className="anime-words">working</div>
-                  <div className="anime-words">at</div>
-                  <div className="anime-words">Rivercode,</div>
-                  <br />
-                  <span className="anime-words">Creating</span>
-                  <div className="anime-words">digital</div>
-                  <div className="anime-words">experiencies.</div>
-                </h3>
-              </div>
-            </div>
+            ></div>
           </div>
         </div>
       </>
