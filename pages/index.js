@@ -96,7 +96,7 @@ class Home extends React.Component {
   };
 
   bind() {
-    ["handleMovementBlocks", "fadeLetters"].forEach(
+    ["handleMovementBlocks", "isElementInViewport", "fadeLetters"].forEach(
       fn => (this[fn] = this[fn].bind(this))
     );
   }
