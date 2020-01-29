@@ -67,20 +67,6 @@ class Home extends React.Component {
     this.removeEvents();
   }
 
-  setBounds() {
-    this.carousell.style.height = window.innerHeight;
-
-    this.items.forEach(slide => {
-      slide.style.height = `${window.innerHeight}px`;
-      slide.style.top = `${window.screen.height}px`;
-    });
-
-    this.hero.current.style.height = `${window.innerHeight}px`;
-    this.hero.current.style.top = 0;
-    this.lastElement.current.style.height = `${window.innerHeight}px`;
-    this.lastElement.current.style.top = `${window.screen.height * 2}px`;
-  }
-
   fadeLetters = (el, type) => {
     return new Promise(resolve => {
       anime({
@@ -112,6 +98,19 @@ class Home extends React.Component {
     });
   };
 
+  scrollWindowTo = number => {
+    return new Promise(resolve => {
+      anime({
+        targets: this.carousellInner,
+        translateY: number,
+        duration: 200,
+        complete: () => {
+          resolve("true");
+        }
+      });
+    });
+  };
+
   bind() {
     ["handleMovementBlocks"].forEach(fn => (this[fn] = this[fn].bind(this)));
   }
@@ -120,75 +119,22 @@ class Home extends React.Component {
     if (!this.isMoving) {
       this.isMoving = true;
 
-      /**
-       * If scroll is at the top of the page
-       */
-      if (this.step === 0 && event.deltaY < 0) {
-        this.carousellInner.style.transform = `translate3d(0, ${-window.screen
-          .height}px, 0)`;
-        this.step = 1;
-
-        const firstElement = this.items[0];
-        firstElement.style.opacity = 1;
-        this.fadeLetters(firstElement, "in");
-        this.fadeImage(firstElement, "in");
-
-        /**
-         * If scroll is at the bottom
-         */
-      } else if (this.step === this.items.length + 2 && event.deltaY > 0) {
-        this.carousellInner.style.transform = `translate3d(0, ${2 *
-          -window.screen.height}px, 0)`;
-        this.step = this.totalSteps;
+      if (event.deltaY > 0) {
+        this.step += 1;
       } else {
-        /**
-         * if scroll is at a project
-         */
-        if (this.step === this.items.length && event.deltaY > 0) {
-          this.carousellInner.style.transform = `translate3d(0, ${2 *
-            -window.screen.height}px, 0)`;
-          this.step = this.totalSteps;
-        }
-
-        if (this.step === 1 && event.deltaY > 0) {
-          this.carousellInner.style.transform = "translate3d(0, 0px, 0)";
-          this.step = 1;
-        }
-
-        if (this.step === 1) {
-          const firstElement = this.items[0];
-          Promise.all([
-            this.fadeLetters(firstElement, "out"),
-            this.fadeImage(firstElement, "out")
-          ]);
-          firstElement.style.opacity = 0;
-        }
-
-        console.log(this.step);
-        const oldElement = this.items[this.step];
-        Promise.all([
-          this.fadeLetters(oldElement, "out"),
-          this.fadeImage(oldElement, "out"),
-          (oldElement.style.opacity = 0)
-        ]);
-
-        this.step = event.deltaY < 0 ? this.step + 1 : this.step - 1;
-
-        const element = this.items[this.step];
-        element.style.opacity = 1;
-        Promise.all([
-          this.fadeLetters(element, "in"),
-          this.fadeImage(element, "in")
-        ]);
+        this.step -= 1;
       }
+
+      await this.scrollWindowTo(`-${this.step * window.innerHeight}px`);
+
       this.isMoving = false;
     }
   }
 
   addEvents() {
-    window.addEventListener("wheel", this.handleMovementBlocks, {
-      passive: true
-    });
+    // window.addEventListener("wheel", this.handleMovementBlocks, {
+    //   passive: true
+    // });
   }
 
   removeEvents() {
@@ -196,7 +142,6 @@ class Home extends React.Component {
   }
 
   carousellInit() {
-    this.setBounds();
     this.addEvents();
   }
 
@@ -224,23 +169,41 @@ class Home extends React.Component {
                   <span className="anime-words">am</span>
                   <span className="anime-words">Emil</span>
                   <span className="anime-words">Priver.</span>
-                  <br />
                   <span className="anime-words">A</span>
                   <span className="anime-words">developer</span>
                   <span className="anime-words">based</span>
                   <span className="anime-words">in</span>
-                  <span className="anime-words">Borås,</span>
-                  <span className="anime-words">Sweden</span>
+                  <span className="anime-words">
+                    <a
+                      href="https://www.google.com/maps/place/Borås/@57.724734,12.8920644,13z/data=!3m1!4b1!4m5!3m4!1s0x465aa0b04bdcfeed:0x7c327e8fc1abfa59!8m2!3d57.721035!4d12.939819"
+                      target="_blank"
+                    >
+                      Borås
+                    </a>
+                    ,
+                  </span>
+                  <span className="anime-words">
+                    <a
+                      href="https://www.google.com/maps/place/Sverige/@61.7514617,8.4252509,5z/data=!3m1!4b1!4m5!3m4!1s0x465cb2396d35f0f1:0x22b8eba28dad6f62!8m2!3d60.128161!4d18.643501"
+                      target="_blank"
+                    >
+                      Sweden.
+                    </a>
+                  </span>
                 </h1>
                 <h3>
                   <span className="anime-words">Currently</span>
-                  <div className="anime-words">working</div>
-                  <div className="anime-words">at</div>
-                  <div className="anime-words">Rivercode,</div>
-                  <br />
+                  <span className="anime-words">working</span>
+                  <span className="anime-words">at</span>
+                  <span className="anime-words">
+                    <a href="" target="_blank">
+                      Rivercode
+                    </a>
+                    ,
+                  </span>
                   <span className="anime-words">Creating</span>
-                  <div className="anime-words">digital</div>
-                  <div className="anime-words">experiencies.</div>
+                  <span className="anime-words">digital</span>
+                  <span className="anime-words">experiencies.</span>
                 </h3>
               </div>
             </div>
@@ -264,9 +227,9 @@ class Home extends React.Component {
                           );
                         })}
                       </h3>
-                      {item.project_info ? (
+                      {item.acf.project_info ? (
                         <div className="frontpage-carousell-block-item-title-wrapper-project-info">
-                          {item.project_info.split(" ").map(el => {
+                          {item.acf.project_info.split(" ").map(el => {
                             return (
                               <div className="words" key={el}>
                                 {el}

@@ -1,13 +1,7 @@
 .frontpage-carousell-block {
-    &.last-block {
-        position: absolute;
-    }
-
     &-item {
         width: 100%;
         float: left;
-        position: absolute;
-        opacity: 0;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -22,7 +16,7 @@
 
             .image {
                 height: 100%;
-                width: 50%;
+                width: 100%;
                 margin-bottom: 30px;
                 pointer-events: none;
                 overflow: hidden;
@@ -39,22 +33,30 @@
         }
 
         &-title {
-            width: 50%;
-            height: 100%;
+            width: 100%;
             float: left;
             padding: 50px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
 
-            h3 {
-                font-size: 50px;
-                font-family: $font;
-                font-weight: 500;
+            &-wrapper {
+                h3 {
+                    font-size: 50px;
+                    font-family: $font;
+                    font-weight: 500;
 
-                .words {
-                    margin-right: 10px;
-                    float: left;
+                    .words {
+                        margin-right: 10px;
+                        float: left;
+                    }
+                }
+
+                &-project-info {
+                    .words {
+                        margin-right: 5px;
+                        float: left;
+                    }
                 }
             }
         }
