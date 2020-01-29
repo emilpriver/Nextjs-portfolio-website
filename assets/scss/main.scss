@@ -2,9 +2,14 @@
 
 @import 'pages/home.scss';
 @import 'components/works';
+@import 'components/frontpage_animation';
 
 
 body {
     background: #111;
     color: #fff;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

@@ -1,4 +1,4 @@
-section#hero {
+div#hero {
     box-sizing: border-box;
     height: 100vh;
     display: flex;
@@ -6,25 +6,83 @@ section#hero {
     align-items: center;
 
     .wrapper {
-        max-width: 1200px;
+        max-width: 90%;
 
         .anime-words {
             transform: translateY(10px);
             display: inline-block;
-            margin-right: 15px;
             opacity: 0;
         }
 
         h1 {
-            font-size: 80px;
+            font-size: 120px;
             font-weight: 500;
+            margin-top: 0;
             font-family: $font;
+
+            & .anime-words {
+                margin-right: 15px;
+            }
+
+            a {
+                &:after {
+                    height: 10px;
+                    bottom: -11px;
+                }
+            }
         }
 
         h3 {
             font-size: 40px;
             font-family: $font;
             font-weight: 500;
+
+            & .anime-words {
+                margin-right: 10px;
+            }
+        }
+
+        a {
+            position: relative;
+
+            &:after {
+                background: rgba(255, 255, 255, 0.24);
+                content: " ";
+                display: block;
+                height: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: -6px;
+                left: 0;
+                opacity: 0;
+                transform: translateY(5px);
+                transition: all 0.3s;
+            }
+
+            &:hover {
+                &:after {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        .socials {
+            margin-top: 200px;
+
+            a {
+                transform: translateY(10px);
+                display: inline-block;
+                opacity: 0;
+                margin-right: 20px;
+                font-size: 30px;
+                font-weight: 500;
+                color: #fff;
+
+                &:after {
+                    height: 4px;
+                }
+            }
         }
     }
 }

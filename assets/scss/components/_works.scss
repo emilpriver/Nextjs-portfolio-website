@@ -1,143 +1,69 @@
-section#works {
-    margin-bottom: 200px;
-
-    .title {
-        font-size: 40px;
-        letter-spacing: 1.3px;
-        font-weight: 500;
-        color: #111;
-        -webkit-text-stroke: 0.4px #fff;
-        text-align: left;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .js-slider {
-        position: relative;
-        height: 100%;
+.frontpage-carousell-block {
+    &-item {
         width: 100%;
-        cursor: grab;
-
-        &.is-grabbing {
-            cursor: grabbing;
-        }
-
-        &--inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 800px;
-
-            &--item {
-                box-sizing: border-box;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-        }
-    }
-
-    .js-slider-wrapper {
+        float: left;
+        height: 100vh;
         display: flex;
+        justify-content: center;
         align-items: center;
-        position: relative;
-        overflow: hidden;
-        background-color: #111;
-        user-select: none;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        height: 600px;
-    }
 
-    .wrapper {
-        position: relative;
-
-        .project {
-            margin-bottom: 200px;
+        &-wrapper {
+            max-width: 90%;
             width: 100%;
-            float: left;
-
-            .project_wrapper {
-                max-width: 1200px;
-                margin: 0 auto;
-                position: relative;
-
-                .image {
-                    height: 600px;
-                    width: 100%;
-                    margin-bottom: 30px;
-                    pointer-events: none;
-                    overflow: hidden;
-                    border-radius: 4px;
-                    opacity: .7;
-
-                    img {
-                        object-fit: cover;
-                        height: 100%;
-                        width: 100%;
-                    }
-                }
-            }
-        }
-
-        .project--text {
-            max-width: 1200px;
             margin: 0 auto;
             position: relative;
+            height: 800px;
+
+            .image {
+                height: 100%;
+                width: 100%;
+                margin-bottom: 30px;
+                pointer-events: none;
+                overflow: hidden;
+                border-radius: 10px;
+                float: left;
+
+                img {
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 4px;
+                }
+            }
+        }
+
+        &-title {
+            width: 100%;
+            float: left;
+            padding: 50px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
 
             &-wrapper {
-                padding: 50px 0 0 50px;
-                box-sizing: border-box;
-
-                h2 {
-                    font-size: 60px;
-                    font-weight: 500;
-                    font-family: $font;
-                    margin: 0;
-                    letter-spacing: 2px;
-                    margin-bottom: 0;
-                }
-
-                h4 {
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: $green;
-                    margin: 0;
-                    letter-spacing: 1px;
-                    font-family: $font;
-                }
-
-                a {
-                    margin: 0;
-                    letter-spacing: 2px;
+                h3 {
+                    font-size: 80px;
                     font-family: $font;
                     font-weight: 500;
-                    font-size: 15px;
-                    position: relative;
-                    letter-spacing: 1px;
-
-                    &::after {
-                        content: " ";
-                        display: block;
-                        position: absolute;
-                        bottom: -10px;
-                        left: 0;
-                        width: 100%;
-                        background: #fff;
-                    }
+                    width: 100%;
 
                     .words {
+                        margin-right: 10px;
                         float: left;
-                        margin-right: 5px;
+                        transform: translateY(10px);
+                        display: inline-block;
+                        opacity: 0;
                     }
                 }
 
-                h2,
-                h4,
-                a {
+                &-project-info {
+                    width: 100%;
+                    float: left;
+
                     .words {
-                        transform: translateY(5px);
+                        margin-right: 5px;
+                        float: left;
+                        transform: translateY(10px);
                         display: inline-block;
                         opacity: 0;
                     }
