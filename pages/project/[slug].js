@@ -111,6 +111,46 @@ class Project extends React.Component {
 
   render() {
     const { project } = this.props;
+
+    const blocks = project.acf.blocks.map(el => {
+      if (el.type_of_block === "large_image") {
+        return (
+          <div className="large-image single-project-blocks-item">
+            <img
+              src={el.image}
+              alt={el.image_alt}
+              className="w-full h-auto block"
+            />
+          </div>
+        );
+      }
+
+      if (el.type_of_block === "text_block") {
+        return (
+          <div
+            className={`${el.content_float} flex items-center mx-auto single-project-blocks-item`}
+            style={{ maxWidth: `${el.content_max_width}px` }}
+            dangerouslySetInnerHTML={{ __html: el.content }}
+          />
+        );
+      }
+
+      if (el.type_of_block === "containerized_image") {
+        return (
+          <div
+            className="contaier-image single-project-blocks-item mx-auto"
+            style={{ maxWidth: `${el.content_max_width}px` }}
+          >
+            <img
+              src={el.image}
+              alt={el.image_alt}
+              className="w-full h-auto block"
+            />
+          </div>
+        );
+      }
+    });
+
     return (
       <>
         <Head
@@ -150,7 +190,7 @@ class Project extends React.Component {
                   );
                 })}
             </span>
-            <div class="single-project-content-project-cols">
+            <div className="single-project-content-project-cols">
               <div className="col has-animated-text">
                 <span>
                   <div className="animate-word">CLIENT</div>
@@ -200,6 +240,7 @@ class Project extends React.Component {
             </div>
           </div>
         </div>
+        <div className="single-project-blocks">{blocks}</div>
       </>
     );
   }

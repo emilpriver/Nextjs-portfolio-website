@@ -96,4 +96,16 @@ sans-serif;
             opacity: 0;
         }
     }
+
+    &-blocks {
+        &-item {
+            margin-bottom: 150px;
+
+            h2 {
+                font-size: 40px;
+                color: #000;
+                font-family: $font;
+            }
+        }
+    }
 }
