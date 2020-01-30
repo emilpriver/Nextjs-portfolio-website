@@ -71,9 +71,11 @@ class Project extends React.Component {
     const items = document.querySelectorAll(".has-animated-text");
     items.forEach(el => {
       const word = el.querySelector(".animate-word");
-      const style = window.getComputedStyle(word);
-      if (this.isElementInViewport(word) && parseFloat(style.opacity) === 0) {
-        this.fadeLetters(el.querySelectorAll(".animate-word"), "in");
+      if (word) {
+        const style = window.getComputedStyle(word);
+        if (this.isElementInViewport(word) && parseFloat(style.opacity) === 0) {
+          this.fadeLetters(el.querySelectorAll(".animate-word"), "in");
+        }
       }
     });
   };
@@ -177,18 +179,22 @@ class Project extends React.Component {
                 );
               })}
             </h1>
-            <span className="single-project-content-project-init has-animated-text float-left w-full">
-              {project.acf.project_init_description
-                .split(" ")
-                .map((el, index) => {
-                  return (
-                    <div
-                      className="animate-word"
-                      key={project.acf.title + index + el}
-                      dangerouslySetInnerHTML={{ __html: el }}
-                    />
-                  );
-                })}
+            <span className="single-project-content-project-init float-left w-full">
+              {project.acf.project_init_description ? (
+                <div className="has-animated-text">
+                  {project.acf.project_init_description
+                    .split(" ")
+                    .map((el, index) => {
+                      return (
+                        <div
+                          className="animate-word"
+                          key={project.acf.title + index + el}
+                          dangerouslySetInnerHTML={{ __html: el }}
+                        />
+                      );
+                    })}
+                </div>
+              ) : null}
             </span>
             <div className="single-project-content-project-cols">
               <div className="col has-animated-text">
