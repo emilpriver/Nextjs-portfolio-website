@@ -67,12 +67,12 @@ sans-serif;
                         width: 100%;
                         float: left;
                         margin-bottom: 5px;
-                        font-weight: 500;
+                        font-weight: 700;
                         font-family: $font;
                         font-size: 20px;
 
                         &:last-of-type {
-                            font-weight: 300;
+                            font-weight: 500;
                         }
                     }
                 }
@@ -100,9 +100,34 @@ sans-serif;
     &-blocks {
         &-item {
             margin-bottom: 150px;
+            font-family: $font;
 
             h2 {
                 font-size: 40px;
+                color: #000;
+                font-family: $font;
+            }
+
+            h3 {
+                font-size: 35px;
+                color: #000;
+                font-family: $font;
+            }
+
+            h4 {
+                font-size: 30px;
+                color: #000;
+                font-family: $font;
+            }
+
+            h5 {
+                font-size: 25px;
+                color: #000;
+                font-family: $font;
+            }
+
+            p {
+                font-size: 20px;
                 color: #000;
                 font-family: $font;
             }
