@@ -10,7 +10,7 @@ import "aos/dist/aos.css";
 
 export async function unstable_getStaticProps() {
   const data = await axios
-    .get("https://api.priver.dev/wp-json/wp/v2/works?filter=[orderby]=date")
+    .get("https://api.privv.cloud/wp-json/wp/v2/works?filter=[orderby]=date")
     .then(d => d.data);
   return { props: { projects: data } };
 }

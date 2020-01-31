@@ -10,7 +10,7 @@ import "../../assets/scss/modules/single-project.module.scss";
 
 export async function unstable_getStaticPaths() {
   const params = await axios
-    .get("https://api.priver.dev/wp-json/acf/v3/works")
+    .get("https://api.privv.cloud/wp-json/acf/v3/works")
     .then(response => response.data)
     .then(response => {
       return response.map(el => {
@@ -28,7 +28,7 @@ export async function unstable_getStaticPaths() {
 export async function unstable_getStaticProps(context) {
   const { params } = context;
   const project = await axios
-    .get(`https://api.priver.dev/wp-json/acf/v3/works?slug=${params.slug}`)
+    .get(`https://api.privv.cloud/wp-json/acf/v3/works?slug=${params.slug}`)
     .then(d => d.data[0]);
   return { props: { project } };
 }
