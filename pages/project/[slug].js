@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
 import anime from "animejs";
+import Router from "next/router";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
+import Footer from "../../components/footer";
 
 import "../../assets/scss/modules/single-project.module.scss";
 
@@ -99,6 +101,7 @@ class Project extends React.Component {
       this.handleMovementBlocks,
       false
     );
+    Router.events.on("routeChangeComplete", this.handleMovementBlocks);
   }
 
   removeEvents() {
@@ -167,7 +170,7 @@ class Project extends React.Component {
         />
         <div className="single-project-content w-full float-left">
           <div className="wrapper mx-auto">
-            <h1 className="single-project-content-title has-animated-text float-left w-full">
+            <h2 className="single-project-content-title has-animated-text float-left w-full">
               {project.acf.title.split(" ").map((el, index) => {
                 return (
                   <div
@@ -178,7 +181,7 @@ class Project extends React.Component {
                   </div>
                 );
               })}
-            </h1>
+            </h2>
             <span className="single-project-content-project-init float-left w-full">
               {project.acf.project_init_description ? (
                 <div className="has-animated-text">
@@ -247,6 +250,7 @@ class Project extends React.Component {
           </div>
         </div>
         <div className="single-project-blocks">{blocks}</div>
+        <Footer />
       </>
     );
   }

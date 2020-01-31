@@ -7,6 +7,8 @@ div#hero {
 
     .wrapper {
         max-width: 1400px;
+        padding: 10px;
+        box-sizing: border-box;
 
         .anime-words {
             transform: translateY(10px);
@@ -19,6 +21,18 @@ div#hero {
             font-weight: 500;
             margin-top: 0;
             font-family: $font;
+
+            @media screen and (max-width: 1200px) {
+                font-size: 60px;
+            }
+
+            @media screen and (max-width: 800px) {
+                font-size: 40px;
+            }
+
+            @media screen and (max-width: 600px) {
+                font-size: 30px;
+            }
 
             & .anime-words {
                 margin-right: 15px;
@@ -78,6 +92,10 @@ div#hero {
                 font-size: 30px;
                 font-weight: 500;
                 color: #000;
+
+                @media screen and (max-width: 600px) {
+                    font-size: 20px;
+                }
 
                 &:after {
                     height: 4px;
