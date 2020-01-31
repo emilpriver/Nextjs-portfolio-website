@@ -4,6 +4,7 @@ import Router from "next/router";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
+import Layout from "../components/layout";
 
 import "../assets/scss/modules/about.module.scss";
 
@@ -79,7 +80,7 @@ class About extends React.Component {
 
   render() {
     return (
-      <>
+      <Layout>
         <Head title="Emil Privér - About" />
         <Nav />
         <section id="about">
@@ -180,7 +181,7 @@ class About extends React.Component {
           </div>
         </section>
         <Footer />
-      </>
+      </Layout>
     );
   }
 }
