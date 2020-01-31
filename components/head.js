@@ -48,8 +48,7 @@ Head.defaultProps = {
   title: "Emil Privér",
   description: "Emil Privér System developer in Borås",
   url: "https://priver.dev",
-  ogImage:
-    "https://media.sweamer.se/media/wallpaperflare.com_wallpaper_jWJGefq.jpg"
+  ogImage: "https://cdn.privv.cloud/emilpriver/social_media_image.jpg"
 };
 
 export default Head;
