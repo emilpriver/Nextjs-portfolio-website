@@ -1,5 +1,4 @@
 /* eslint-disable */
-const { parsed: localEnv } = require("dotenv").config();
 const webpack = require("webpack");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
@@ -16,7 +15,6 @@ module.exports = withCSS(
       };
       config.optimization.minimizer = [];
       config.optimization.minimizer.push(new OptimizeCSSAssetsPlugin({}));
-      config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
       return config;
     }
   })
