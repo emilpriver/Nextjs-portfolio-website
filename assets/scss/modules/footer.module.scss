@@ -1,0 +1,63 @@
+$font: sofia-pro,
+sans-serif;
+
+footer {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    float: left;
+
+    .wrapper {
+        width: 100%;
+        max-width: 90%;
+
+        span,
+        a {
+            font-weight: 700;
+            font-family: $font;
+        }
+
+        .copy,
+        .contacts {
+            @media screen and (max-width: 800px) {
+                width: 100%;
+            }
+        }
+
+        .copy {
+            @media screen and (max-width: 800px) {
+                margin-bottom: 20px;
+            }
+        }
+
+        .contacts {
+            a {
+                margin-right: 20px;
+                position: relative;
+
+                &:after {
+                    background: rgba(0, 0, 0, 0.24);
+                    content: " ";
+                    display: block;
+                    height: 2px;
+                    width: 100%;
+                    position: absolute;
+                    bottom: -3px;
+                    left: 0;
+                    opacity: 0;
+                    transform: translateY(5px);
+                    transition: all 0.3s;
+                }
+
+                &:hover {
+                    &:after {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            }
+        }
+    }
+}

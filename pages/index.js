@@ -4,6 +4,7 @@ import anime from "animejs";
 import axios from "axios";
 import Head from "../components/head";
 import Nav from "../components/nav";
+import Footer from "../components/footer";
 
 import "aos/dist/aos.css";
 
@@ -22,12 +23,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.bind();
-
-    this.state = {
-      activeSlideProjectInfo: "",
-      activeSlideTitle: "",
-      activeSlideSlug: ""
-    };
 
     this.projectTextRef = React.createRef();
     this.hero = React.createRef();
@@ -142,11 +137,6 @@ class Home extends React.Component {
 
   render() {
     const { projects } = this.props;
-    const {
-      activeSlideProjectInfo,
-      activeSlideTitle,
-      activeSlideSlug
-    } = this.state;
     return (
       <>
         <Head title="Emil Privér - System Egineer in Borås" />
@@ -301,12 +291,9 @@ class Home extends React.Component {
                 </div>
               </div>
             ))}
-            <div
-              className="frontpage-carousell-block last-block"
-              ref={this.lastElement}
-            ></div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

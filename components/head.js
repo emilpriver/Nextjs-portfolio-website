@@ -26,7 +26,12 @@ const Head = props => {
       <link
         rel="stylesheet"
         type="text/css"
-        href="https://use.typekit.net/sup0pbm.css"
+        href="https://use.typekit.net/ymg4clq.css"
+      />
+      <link
+        rel="preload"
+        as="style"
+        href="https://use.typekit.net/ymg4clq.css"
       />
     </NextHead>
   );

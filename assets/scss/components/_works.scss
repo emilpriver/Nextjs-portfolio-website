@@ -8,11 +8,17 @@
         justify-content: center;
         align-items: center;
 
+        @media screen and (max-width: 600px) {
+            margin-bottom: 50px;
+        }
+
         &-wrapper {
             max-width: 1400px;
             width: 100%;
             margin: 0 auto;
             position: relative;
+            padding: 10px;
+            box-sizing: border-box;
 
             .image {
                 width: 100%;
@@ -20,10 +26,16 @@
                 overflow: hidden;
                 border-radius: 20px;
                 height: 800px;
+                padding: 20px;
+                box-sizing: border-box;
                 float: left;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
+                @media screen and (max-width: 1000px) {
+                    height: 600px;
+                }
 
                 &:hover {
                     img {
@@ -38,6 +50,10 @@
                     width: auto;
                     display: block;
                     transition: all 0.3s;
+
+                    @media screen and (max-width: 1000px) {
+                        max-height: 500px;
+                    }
                 }
             }
         }
@@ -58,6 +74,11 @@
                     width: 100%;
                     float: left;
 
+                    @media screen and (max-width: 600px) {
+                        font-size: 30px;
+                        margin-bottom: 20px;
+                    }
+
                     .animate-title {
                         margin-right: 10px;
                         float: left;
@@ -70,6 +91,10 @@
                     width: 100%;
                     float: left;
 
+                    @media screen and (max-width: 600px) {
+                        margin-bottom: 20px;
+                    }
+
                     .animate-project-info {
                         font-weight: 600;
                         font-size: 23px;
@@ -78,6 +103,10 @@
                         transform: translateY(10px);
                         float: left;
                         opacity: 0;
+
+                        @media screen and (max-width: 600px) {
+                            font-size: 17px;
+                        }
                     }
                 }
 

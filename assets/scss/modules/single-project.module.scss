@@ -3,15 +3,26 @@ sans-serif;
 
 .single-project {
     &-hero {
-        height: 100vh;
+        height: 400px;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-end;
+        justify-content: center;
+        align-items: center;
         padding: 20px;
         box-sizing: border-box;
+
+        @media screen and (min-width: 600px) {
+            height: 800px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #fff;
+            font-family: $font;
+
+        }
     }
 
     &-content {
@@ -19,6 +30,8 @@ sans-serif;
 
         & .wrapper {
             max-width: 1100px;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         &-project {
@@ -34,11 +47,15 @@ sans-serif;
             }
 
             &-init {
-                font-size: 50px;
+                font-size: 30px;
                 font-weight: 500;
                 color: #000;
                 font-family: $font;
                 margin-bottom: 100px;
+
+                @media screen and (min-width: 600px) {
+                    font-size: 50px;
+                }
 
                 p {
                     width: 100%;
@@ -58,6 +75,11 @@ sans-serif;
 
                 .col {
                     flex: 1;
+
+                    @media screen and (max-width: 700px) {
+                        flex: 0 0 100%;
+                        margin-bottom: 30px;
+                    }
 
                     & .animate-word {
                         margin-right: 5px;
@@ -101,6 +123,13 @@ sans-serif;
         &-item {
             margin-bottom: 150px;
             font-family: $font;
+            flex-wrap: wrap;
+            padding: 10px;
+            box-sizing: border-box;
+
+            &.large-image {
+                padding: 0;
+            }
 
             h2 {
                 font-size: 40px;
