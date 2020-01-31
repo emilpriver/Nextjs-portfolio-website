@@ -5,7 +5,7 @@ import Router from "next/router";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
 
 import "../../assets/scss/modules/single-project.module.scss";
 
