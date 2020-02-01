@@ -5,6 +5,7 @@ import axios from "axios";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
+import Layout from "../components/layout";
 
 import "aos/dist/aos.css";
 
@@ -138,7 +139,7 @@ class Home extends React.Component {
   render() {
     const { projects } = this.props;
     return (
-      <>
+      <Layout>
         <Head title="Emil Privér - Programmer in Borås" />
         <Nav />
         <div className="frontpage">
@@ -294,7 +295,7 @@ class Home extends React.Component {
           </div>
         </div>
         <Footer />
-      </>
+      </Layout>
     );
   }
 }

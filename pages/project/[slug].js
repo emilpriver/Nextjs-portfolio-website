@@ -5,6 +5,7 @@ import Router from "next/router";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
+import Layout from "../../components/layout";
 
 import "../../assets/scss/modules/single-project.module.scss";
 
@@ -157,7 +158,7 @@ class Project extends React.Component {
     });
 
     return (
-      <>
+      <Layout>
         <Head
           ogImage={project.acf.thumbnail}
           title={`Emil Privér - Project ${project.acf.title}`}
@@ -251,7 +252,7 @@ class Project extends React.Component {
         </div>
         <div className="single-project-blocks">{blocks}</div>
         <Footer />
-      </>
+      </Layout>
     );
   }
 }
