@@ -10,6 +10,7 @@ const sitemapXml = data => {
     if (!latestPost || postDate > latestPost) {
       latestPost = postDate;
     }
+
     const projectURL = `https://priver.dev/project/${post.acf.slug}/`;
     projectsXML += `
       <url>
