@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-const projects = data => {
+const sitemapXml = data => {
   let latestPost = 0;
   let projectsXML = "";
+
   data.map(post => {
     const postDate = Date.parse(post.modified);
     if (!latestPost || postDate > latestPost) {
@@ -17,14 +18,7 @@ const projects = data => {
         <priority>0.50</priority>
       </url>`;
   });
-  return {
-    projectsXML,
-    latestPost
-  };
-};
 
-const sitemapXml = data => {
-  const { projectsXML, latestPost } = projects(data);
   return `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
