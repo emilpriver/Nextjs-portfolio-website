@@ -11,7 +11,9 @@ import "aos/dist/aos.css";
 
 export async function unstable_getStaticProps() {
   const data = await axios
-    .get("https://api.privv.cloud/wp-json/wp/v2/works?filter=[orderby]=date")
+    .get("https://api.privv.cloud/wp-json/wp/v2/works?filter=[orderby]=date", {
+      headers: { "Cache-Control": "no-cache" }
+    })
     .then(d => d.data);
   return { props: { projects: data } };
 }
