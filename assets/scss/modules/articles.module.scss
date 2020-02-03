@@ -6,7 +6,7 @@ section#articles {
     float: left;
     padding-top: 150px;
     background: #f9f9f9;
-    height: 100vh;
+    min-height: 100vh;
 
     .container {
         h1 {
