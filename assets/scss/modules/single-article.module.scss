@@ -38,6 +38,15 @@ section#single-article {
             margin-bottom: 100px;
         }
 
+        .tags {
+            padding: 10px;
+            box-sizing: border-box;
+            float: left;
+            width: 100%;
+            font-weight: 500;
+            font-family: $font;
+        }
+
         .content {
             font-family: $droid;
             font-weight: 500;

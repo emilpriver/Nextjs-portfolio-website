@@ -32,6 +32,7 @@ class SingleArticle extends React.Component {
           <div className="container mx-auto">
             <div className="date">{moment(post.published_at).format("LL")}</div>
             <h1 className="title">{post.title}</h1>
+            <div className="tags">{post.tag_list}</div>
             <div className="thumbnail">
               <img src={post.social_image} alt={post.title} />
             </div>
