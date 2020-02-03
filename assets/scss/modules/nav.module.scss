@@ -28,7 +28,7 @@ header#nav {
                 display: block;
 
                 @media screen and (max-width: 500px) {
-                    max-width: 100%;
+                    max-width: 70%;
                 }
             }
         }
@@ -39,6 +39,11 @@ header#nav {
                 font-weight: 500;
                 font-family: sofia-pro, sans-serif;
                 position: relative;
+                margin-right: 20px;
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
 
                 &:after {
                     background: rgba(0, 0, 0, 0.24);

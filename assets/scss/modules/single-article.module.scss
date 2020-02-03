@@ -1,0 +1,121 @@
+$font: sofia-pro,
+sans-serif;
+
+$droid: droid-serif,
+serif;
+
+section#single-article {
+    width: 100%;
+    float: left;
+    padding-top: 150px;
+
+    .container {
+        max-width: 900px;
+
+        .date {
+            font-family: $font;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            &.title {
+                font-size: 60px;
+                font-family: $font;
+                font-weight: 600;
+                margin-bottom: 20px;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            display: block;
+            margin-bottom: 100px;
+        }
+
+        .tags {
+            padding: 10px;
+            box-sizing: border-box;
+            float: left;
+            width: 100%;
+            font-weight: 500;
+            font-family: $font;
+        }
+
+        .content {
+            font-family: $droid;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 40px;
+            padding: 10px;
+            box-sizing: border-box;
+
+            p {
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 50px;
+                margin: 30px 0;
+            }
+
+            h2 {
+                font-size: 40px;
+                margin: 30px 0;
+            }
+
+            h3 {
+                font-size: 35px;
+                margin: 30px 0;
+            }
+
+            h4 {
+                font-size: 30px;
+                margin: 30px 0;
+            }
+
+            h5 {
+                font-size: 25px;
+                margin: 30px 0;
+            }
+
+            hr {
+                margin: 20px 0;
+            }
+
+            img {
+                margin: 20px 0;
+            }
+
+            pre {
+                margin: 50px 0;
+                font-size: 14px;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                width: auto;
+                display: block;
+            }
+
+            a {
+                border-bottom: 2px solid #000;
+            }
+
+            pre {
+                background: #f0f0f0;
+                padding: 10px;
+                box-sizing: border-box;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                text-align: justify;
+            }
+        }
+    }
+}
