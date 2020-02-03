@@ -26,6 +26,7 @@ class SingleArticle extends React.Component {
         <Head
           title={`Emil Privér - Post: ${post.title}`}
           description={`Emil Privér - Post: ${post.description}`}
+          ogImage={post.social_image}
         />
         <Nav />
         <section id="single-article">

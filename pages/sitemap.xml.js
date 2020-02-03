@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-const sitemapXml = data => {
+const sitemapXml = (data, articles) => {
   let latestPost = 0;
   let projectsXML = "";
+  let articleXML = "";
 
   data.map(post => {
     const postDate = Date.parse(post.modified);
@@ -13,6 +14,18 @@ const sitemapXml = data => {
 
     const projectURL = `https://priver.dev/project/${post.acf.slug}/`;
     projectsXML += `
+      <url>
+        <loc>${projectURL}</loc>
+        <lastmod>${postDate}</lastmod>
+        <priority>0.50</priority>
+      </url>`;
+  });
+
+  articles.map(post => {
+    const postDate = Date.parse(post.published_at);
+
+    const projectURL = `https://priver.dev/posts/${post.id}/`;
+    articleXML += `
       <url>
         <loc>${projectURL}</loc>
         <lastmod>${postDate}</lastmod>
@@ -31,7 +44,12 @@ const sitemapXml = data => {
         <loc>https://priver.dev/about/</loc>
         <priority>0.80</priority>
       </url>
+      <url>
+        <loc>https://priver.dev/posts/</loc>
+        <priority>0.80</priority>
+      </url>
       ${projectsXML}
+      ${articleXML}
     </urlset>`;
 };
 
@@ -46,8 +64,17 @@ class Sitemap extends React.Component {
       )
       .then(response => response.data);
 
+    const posts = await axios
+      .get("https://dev.to/api/articles/me/", {
+        headers: {
+          "api-key": "FJ6KqkTCSS6FnafNYcEXdefw"
+        }
+      })
+      .then(r => r.data)
+      .catch(() => []);
+
     res.setHeader("Content-Type", "text/xml");
-    res.write(sitemapXml(params));
+    res.write(sitemapXml(params, posts));
     res.end();
   }
 }
