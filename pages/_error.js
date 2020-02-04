@@ -12,11 +12,7 @@ function Error() {
       <Nav />
       <div id="error">
         <div className="wrapper">
-          <Lottie
-            loop
-            autoPlay
-            url="https://cdn.privv.cloud/Lotti/error-404.json"
-          />
+          <Lottie autoPlay url="https://cdn.privv.cloud/Lotti/error-404.json" />
           <span>404, page dont exists</span>
         </div>
       </div>
