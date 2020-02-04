@@ -1,11 +1,9 @@
 import React from "react";
 import { initGA, logPageView } from "../utils/googleanalytics";
-import getConfig from "next/config";
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { publicRuntimeConfig } = getConfig();
-    if (!window.GA_INITIALIZED && !publicRuntimeConfig.DEV) {
+    if (!window.GA_INITIALIZED && window.location.host === "priver.dev") {
       initGA();
       window.GA_INITIALIZED = true;
     }
