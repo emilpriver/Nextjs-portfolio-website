@@ -6,6 +6,7 @@ import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
 import Layout from "../../components/layout";
+import Error from "../_error";
 
 import "../../assets/scss/modules/single-article.module.scss";
 
@@ -14,13 +15,19 @@ class SingleArticle extends React.Component {
     const { slug } = params.query;
     const post = await axios
       .get(`https://dev.to/api/articles/${slug}`, {})
-      .then(r => r.data);
+      .then(r => r.data)
+      .catch(() => false);
 
     return { post };
   }
 
   render() {
     const { post } = this.props;
+
+    if (!post) {
+      return <Error />;
+    }
+
     return (
       <Layout>
         <Head

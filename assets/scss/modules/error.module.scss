@@ -1,0 +1,17 @@
+#error {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .wrapper {
+        text-align: center;
+
+        span {
+            font-family: sofia-pro, sans-serif;
+            font-size: 20px;
+            text-align: center;
+        }
+    }
+
+}
