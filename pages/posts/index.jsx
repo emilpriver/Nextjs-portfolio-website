@@ -66,7 +66,7 @@ class Articles extends React.Component {
                         </div>
                         <div className="read">
                           <Link href="/posts/[slug]" as={`/posts/${el.id}`}>
-                            <a>Read posts</a>
+                            <a>Read posts -></a>
                           </Link>
                         </div>
                       </div>
