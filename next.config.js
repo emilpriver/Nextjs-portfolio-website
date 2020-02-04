@@ -10,9 +10,6 @@ module.exports = withCSS(
     env: {
       DEV: process.env.NODE_ENV === "development"
     },
-    publicRuntimeConfig: {
-      DEV: process.env.NODE_ENV === "development"
-    },
     webpack: config => {
       config.node = {
         fs: "empty"
