@@ -1,5 +1,5 @@
 import React from "react";
-import Lottie from "../components/Lottie";
+import Lottie from "../components/lottie";
 import Nav from "../components/nav";
 import Head from "../components/head";
 
