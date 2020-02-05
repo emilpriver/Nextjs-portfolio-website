@@ -13,14 +13,39 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    if (prefersDark.matches) {
       this.setState({
         logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
       });
     }
+    prefersDark.addListener(mediaQuery => {
+      if (mediaQuery.matches) {
+        this.setState({
+          logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
+        });
+      } else {
+        this.setState({
+          logo: "https://cdn.privv.cloud/emilpriver/logo_black.png"
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeListener(mediaQuery => {
+        if (mediaQuery.matches) {
+          this.setState({
+            logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
+          });
+        } else {
+          this.setState({
+            logo: "https://cdn.privv.cloud/emilpriver/logo_black.png"
+          });
+        }
+      });
   }
 
   render() {
