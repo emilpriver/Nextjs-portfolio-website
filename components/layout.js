@@ -3,11 +3,13 @@ import { initGA, logPageView } from "../utils/googleanalytics";
 
 class Layout extends React.Component {
   componentDidMount() {
-    if (!window.GA_INITIALIZED && window.location.host === "priver.dev") {
-      initGA();
-      window.GA_INITIALIZED = true;
+    if (window.location.host === "priver.dev") {
+      if (!window.GA_INITIALIZED) {
+        initGA();
+        window.GA_INITIALIZED = true;
+      }
+      logPageView();
     }
-    logPageView();
   }
   render() {
     return <>{this.props.children}</>;

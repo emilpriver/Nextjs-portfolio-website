@@ -106,6 +106,10 @@ section#single-article {
 
             a {
                 border-bottom: 2px solid #000;
+
+                @media (prefers-color-scheme: dark) {
+                    border-bottom: 2px solid #fff;
+                }
             }
 
             pre {
@@ -113,6 +117,10 @@ section#single-article {
                 padding: 10px;
                 box-sizing: border-box;
                 overflow-x: scroll;
+
+                @media (prefers-color-scheme: dark) {
+                    background: #29292e;
+                }
             }
         }
     }

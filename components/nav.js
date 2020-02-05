@@ -3,29 +3,75 @@ import Link from "next/link";
 
 import "../assets/scss/modules/nav.module.scss";
 
-const Nav = () => (
-  <header id="nav">
-    <div className="wrapper mx-auto">
-      <div className="logo float-left">
-        <Link href="/">
-          <a>
-            <img
-              src="https://cdn.privv.cloud/emilpriver/logo_black.png"
-              alt="Emil Priver"
-            />
-          </a>
-        </Link>
-      </div>
-      <div className="links float-right justify-end flex ">
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-        <Link href="/posts">
-          <a>Posts</a>
-        </Link>
-      </div>
-    </div>
-  </header>
-);
+class Nav extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      logo: "https://cdn.privv.cloud/emilpriver/logo_black.png"
+    };
+  }
+
+  componentDidMount() {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    if (prefersDark.matches) {
+      this.setState({
+        logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
+      });
+    }
+    prefersDark.addListener(mediaQuery => {
+      if (mediaQuery.matches) {
+        this.setState({
+          logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
+        });
+      } else {
+        this.setState({
+          logo: "https://cdn.privv.cloud/emilpriver/logo_black.png"
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeListener(mediaQuery => {
+        if (mediaQuery.matches) {
+          this.setState({
+            logo: "https://cdn.privv.cloud/emilpriver/logo_white.png"
+          });
+        } else {
+          this.setState({
+            logo: "https://cdn.privv.cloud/emilpriver/logo_black.png"
+          });
+        }
+      });
+  }
+
+  render() {
+    const { logo } = this.state;
+    return (
+      <header id="nav">
+        <div className="wrapper mx-auto">
+          <div className="logo float-left">
+            <Link href="/">
+              <a>
+                <img src={logo} alt="Emil Priver" />
+              </a>
+            </Link>
+          </div>
+          <div className="links float-right justify-end flex ">
+            <Link href="/about">
+              <a>About</a>
+            </Link>
+            <Link href="/posts">
+              <a>Posts</a>
+            </Link>
+          </div>
+        </div>
+      </header>
+    );
+  }
+}
 
 export default Nav;

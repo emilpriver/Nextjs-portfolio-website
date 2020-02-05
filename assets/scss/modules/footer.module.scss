@@ -50,6 +50,10 @@ footer {
                     opacity: 0;
                     transform: translateY(5px);
                     transition: all 0.3s;
+
+                    @media (prefers-color-scheme: dark) {
+                        background: rgba(255, 255, 255, 0.24);
+                    }
                 }
 
                 &:hover {
