@@ -8,6 +8,11 @@ section#articles {
     background: #f9f9f9;
     min-height: 100vh;
 
+
+    @media (prefers-color-scheme: dark) {
+        background: #111
+    }
+
     .container {
         h1 {
             font-size: 30px;
@@ -38,6 +43,10 @@ section#articles {
                     width: 100%;
                     float: left;
 
+                    @media (prefers-color-scheme: dark) {
+                        background: #000
+                    }
+
                     h3 {
                         font-size: 25px;
                         font-weight: 700;
@@ -55,6 +64,10 @@ section#articles {
                         width: 100%;
                         float: left;
                         margin-bottom: 5px;
+
+                        @media (prefers-color-scheme: dark) {
+                            color: #fff
+                        }
                     }
 
                     .tags {
@@ -98,6 +111,10 @@ section#articles {
                                 opacity: 0;
                                 transform: translateY(5px);
                                 transition: all 0.3s;
+
+                                @media (prefers-color-scheme: dark) {
+                                    background: rgba(255, 255, 255, 0.24);
+                                }
                             }
 
                             &:hover {
