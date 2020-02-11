@@ -13,12 +13,11 @@ import "../../assets/scss/modules/articles.module.scss";
 class Articles extends React.Component {
   static async getInitialProps() {
     const posts = await axios
-      .get("https://dev.to/api/articles/me/", {
-        headers: {
-          "api-key": "FJ6KqkTCSS6FnafNYcEXdefw"
-        }
-      })
+      .get(
+        "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40emilpriver"
+      )
       .then(r => r.data)
+      .then(r => r.items)
       .catch(() => false);
 
     return { posts };
@@ -42,21 +41,19 @@ class Articles extends React.Component {
                   return (
                     <div
                       className="article w-full md:w-1/2 lg:w-1/3 float-left"
-                      key={el.id}
+                      key={el.title}
                     >
                       <div className="wrapper">
-                        <Link href="/posts/[slug]" as={`/posts/${el.id}`}>
-                          <a>
-                            <h3>{el.title}</h3>
-                          </a>
-                        </Link>
+                        <a href={el.link} target="_blank">
+                          <h3>{el.title}</h3>
+                        </a>
                         <span className="date">
-                          {`${moment(el.published_at)
+                          {`${moment(el.pubDate)
                             .startOf("hour")
                             .fromNow()}`}
                         </span>
                         <div className="tags">
-                          {el.tag_list.map(tag => {
+                          {el.categories.map(tag => {
                             return (
                               <div key={tag} className="tag">
                                 {tag}
@@ -65,9 +62,9 @@ class Articles extends React.Component {
                           })}
                         </div>
                         <div className="read">
-                          <Link href="/posts/[slug]" as={`/posts/${el.id}`}>
-                            <a>Read posts -></a>
-                          </Link>
+                          <a href={el.link} target="_blank">
+                            Read posts ->
+                          </a>
                         </div>
                       </div>
                     </div>
