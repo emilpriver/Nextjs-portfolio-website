@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import Link from "next/link";
 import moment from "moment";
 
 import Head from "../../components/head";
@@ -38,13 +37,17 @@ class Articles extends React.Component {
             {posts ? (
               <div className="row">
                 {posts.map(el => {
-                  return (
+                  return el.categories.length > 0 ? (
                     <div
                       className="article w-full md:w-1/2 lg:w-1/3 float-left"
                       key={el.title}
                     >
                       <div className="wrapper">
-                        <a href={el.link} target="_blank">
+                        <a
+                          href={el.link}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
                           <h3>{el.title}</h3>
                         </a>
                         <span className="date">
@@ -55,20 +58,28 @@ class Articles extends React.Component {
                         <div className="tags">
                           {el.categories.map(tag => {
                             return (
-                              <div key={tag} className="tag">
+                              <div
+                                key={tag}
+                                rel="noopener noreferrer"
+                                className="tag"
+                              >
                                 {tag}
                               </div>
                             );
                           })}
                         </div>
                         <div className="read">
-                          <a href={el.link} target="_blank">
+                          <a
+                            href={el.link}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
                             Read posts ->
                           </a>
                         </div>
                       </div>
                     </div>
-                  );
+                  ) : null;
                 })}
               </div>
             ) : (
