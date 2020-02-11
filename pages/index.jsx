@@ -142,7 +142,7 @@ class Home extends React.Component {
     const { projects } = this.props;
     return (
       <Layout>
-        <Head title="Emil Privér - Programmer in Borås" />
+        <Head title="Emil Privér - Developer in Borås" />
         <Nav />
         <div className="frontpage">
           <div className="frontpage-carousell">

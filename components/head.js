@@ -46,7 +46,8 @@ Head.propTypes = {
 
 Head.defaultProps = {
   title: "Emil Privér",
-  description: "Emil Privér - System developer in Borås",
+  description:
+    "Emil Privér - Developer at Rivercode in Borås. I love programming",
   url: "https://priver.dev",
   ogImage: "https://cdn.privv.cloud/emilpriver/social_media_image.jpg"
 };
