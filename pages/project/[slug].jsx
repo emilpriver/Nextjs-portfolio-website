@@ -2,41 +2,60 @@ import React from "react";
 import axios from "axios";
 import anime from "animejs";
 import Router from "next/router";
+import groq from "groq";
+import imageUrlBuilder from "@sanity/image-url";
+import BlockContent from "@sanity/block-content-to-react";
+import client from "../../sanity";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
 import Layout from "../../components/layout";
-import Error from "../_error";
 
 import "../../assets/scss/modules/single-project.module.scss";
 
-export async function unstable_getStaticPaths() {
-  const params = await axios
-    .get("https://api.privv.cloud/wp-json/acf/v3/works", {
-      headers: { "Cache-Control": "no-cache" }
-    })
-    .then(response => response.data)
-    .then(response => {
-      return response.map(el => {
-        return {
-          params: {
-            slug: el.acf.slug
-          }
-        };
-      });
-    });
+function imageURL(source) {
+  return imageUrlBuilder(client).image(source);
+}
 
-  return params;
+const generatePagesQuery = groq`*[_type == "works"]{
+  slug
+}`;
+
+const query = groq`*[_type == "works" && slug.current == $slug][0]{
+  title,
+  thumbnail,
+  customer_name,
+  seo,
+  slug,
+  color,
+  website_url,
+  project_info,
+  background_color,
+  image_projects_page,
+  publishedAt,
+  description,
+  blocks,
+  created
+}|order(created asc)`;
+
+export async function unstable_getStaticPaths() {
+  const data = await client.fetch(generatePagesQuery).then(response => {
+    return response.map(el => {
+      return {
+        params: {
+          slug: el.slug.current
+        }
+      };
+    });
+  });
+
+  return data;
 }
 
 export async function unstable_getStaticProps(context) {
-  const { params } = context;
-  const project = await axios
-    .get(`https://api.privv.cloud/wp-json/acf/v3/works?slug=${params.slug}`, {
-      headers: { "Cache-Control": "no-cache" }
-    })
-    .then(d => d.data[0]);
-  return { props: { project } };
+  const { slug } = context.params;
+  const data = await client.fetch(query, { slug });
+  return { props: { project: data } };
 }
 
 class Project extends React.Component {
@@ -123,37 +142,44 @@ class Project extends React.Component {
   render() {
     const { project } = this.props;
 
-    const blocks = project.acf.blocks.map(el => {
+    const blocks = project.blocks.map(el => {
       if (el.type_of_block === "large_image") {
         return (
           <div className="large-image single-project-blocks-item">
             <img
-              src={el.image}
-              alt={el.image_alt}
+              src={imageURL(el.image)
+                .auto("format")
+                .url()}
+              alt={project.title}
               className="w-full h-auto block"
             />
           </div>
         );
       }
 
-      if (el.type_of_block === "text_block") {
+      if (el.type_of_block === "text") {
         return (
           <div
-            className={`${el.content_float} flex items-center mx-auto single-project-blocks-item`}
-            style={{ maxWidth: `${el.content_max_width}px` }}
-            dangerouslySetInnerHTML={{ __html: el.content }}
-          />
+            className={`${el.content_float} flex container mx-auto items-center single-project-blocks-item`}
+          >
+            <div style={{ maxWidth: `${el.max_width}px` }}>
+              <BlockContent blocks={el.description} {...client.config()} />
+            </div>
+          </div>
         );
       }
 
-      if (el.type_of_block === "containerized_image") {
+      if (el.type_of_block === "container_image") {
         return (
           <div
             className="contaier-image single-project-blocks-item mx-auto"
-            style={{ maxWidth: `${el.content_max_width}px` }}
+            style={{ maxWidth: `${el.max_width}px` }}
           >
             <img
-              src={el.image}
+              src={imageURL(el.image)
+                .maxWidth(el.max_width)
+                .auto("format")
+                .url()}
               alt={el.image_alt}
               className="w-full h-auto block"
             />
@@ -165,23 +191,29 @@ class Project extends React.Component {
     return (
       <Layout>
         <Head
-          ogImage={project.acf.thumbnail}
-          title={`Emil Privér - Project ${project.acf.title}`}
-          description={`Emil Privér - Project ${project.acf.title} - ${project.acf.project_info}`}
+          ogImage={imageURL(project.thumbnail.asset)
+            .auto("format")
+            .url()}
+          title={`Emil Privér - Project ${project.title}`}
+          description={`Emil Privér - Project ${project.title} - ${project.project_info}`}
         />
         <Nav />
         <div
           className="single-project-hero"
-          style={{ backgroundImage: `url(${project.acf.thumbnail})` }}
+          style={{
+            backgroundImage: `url(${imageURL(project.thumbnail.asset)
+              .auto("format")
+              .url()})`
+          }}
         />
         <div className="single-project-content w-full float-left">
           <div className="wrapper mx-auto">
             <h2 className="single-project-content-title has-animated-text float-left w-full">
-              {project.acf.title.split(" ").map((el, index) => {
+              {project.title.split(" ").map((el, index) => {
                 return (
                   <div
                     className="animate-word"
-                    key={project.acf.title + index + el}
+                    key={project.title + index + el}
                   >
                     {el}
                   </div>
@@ -189,19 +221,15 @@ class Project extends React.Component {
               })}
             </h2>
             <span className="single-project-content-project-init float-left w-full">
-              {project.acf.project_init_description ? (
+              {project.description ? (
                 <div className="has-animated-text">
-                  {project.acf.project_init_description
-                    .split(" ")
-                    .map((el, index) => {
-                      return (
-                        <div
-                          className="animate-word"
-                          key={project.acf.title + index + el}
-                          dangerouslySetInnerHTML={{ __html: el }}
-                        />
-                      );
-                    })}
+                  <div className="animate-word">
+                    <BlockContent
+                      blocks={project.description}
+                      imageOptions={{ w: 320, h: 240, fit: "max" }}
+                      {...client.config()}
+                    />
+                  </div>
                 </div>
               ) : null}
             </span>
@@ -211,13 +239,11 @@ class Project extends React.Component {
                   <div className="animate-word">CLIENT</div>
                 </span>
                 <span>
-                  {project.acf.customer_name.split(" ").map((el, index) => {
+                  {project.customer_name.split(" ").map((el, index) => {
                     return (
-                      <div
-                        className="animate-word"
-                        key={el}
-                        dangerouslySetInnerHTML={{ __html: el }}
-                      />
+                      <div className="animate-word" key={el}>
+                        {el}
+                      </div>
                     );
                   })}
                 </span>
@@ -227,7 +253,7 @@ class Project extends React.Component {
                   <div className="animate-word">WORK</div>
                 </span>
                 <span>
-                  {project.acf.project_info.split(" ").map((el, index) => {
+                  {project.project_info.split(" ").map((el, index) => {
                     return (
                       <div className="animate-word" key={`${el + index}`}>
                         {el}
@@ -244,11 +270,9 @@ class Project extends React.Component {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={project.acf.website_url}
+                    href={project.website_url}
                   >
-                    <span className="animate-word">
-                      {project.acf.website_url}
-                    </span>
+                    <span className="animate-word">{project.website_url}</span>
                   </a>
                 </span>
               </div>

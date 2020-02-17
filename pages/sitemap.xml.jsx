@@ -1,22 +1,30 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
+import groq from "groq";
+import client from "../sanity";
+
+const query = groq`*[_type == "works"]{
+  slug,
+  publishedAt,
+  _updatedAt
+}`;
 
 const sitemapXml = data => {
   let latestPost = 0;
   let projectsXML = "";
 
   data.map(post => {
-    const postDate = Date.parse(post.modified);
+    const postDate = Date.parse(post._updatedAt);
     if (!latestPost || postDate > latestPost) {
-      latestPost = post.modified;
+      latestPost = post._updatedAt;
     }
 
-    const projectURL = `https://priver.dev/project/${post.acf.slug}/`;
+    const projectURL = `https://priver.dev/project/${post.slug.current}/`;
     projectsXML += `
       <url>
         <loc>${projectURL}</loc>
-        <lastmod>${moment(postDate).format("YYYY-MM-DD")}</lastmod>
+        <lastmod>${moment(post.publishedAt).format("YYYY-MM-DD")}</lastmod>
         <priority>0.50</priority>
       </url>`;
   });
@@ -42,14 +50,7 @@ const sitemapXml = data => {
 
 class Sitemap extends React.Component {
   static async getInitialProps({ res }) {
-    const params = await axios
-      .get(
-        "https://api.privv.cloud/wp-json/wp/v2/works?filter=[orderby]=date",
-        {
-          headers: { "Cache-Control": "no-cache" }
-        }
-      )
-      .then(response => response.data);
+    const params = await client.fetch(query);
 
     res.setHeader("Content-Type", "text/xml");
     res.write(sitemapXml(params));

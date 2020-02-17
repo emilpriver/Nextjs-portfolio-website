@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import anime from "animejs";
-import axios from "axios";
+import groq from "groq";
+import imageUrlBuilder from "@sanity/image-url";
+import client from "../sanity";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
@@ -9,12 +11,28 @@ import Layout from "../components/layout";
 
 import "aos/dist/aos.css";
 
+function imageURL(source) {
+  return imageUrlBuilder(client).image(source);
+}
+
+const query = groq`*[_type == "works"]{
+  title,
+  thumbnail,
+  customer_name,
+  seo,
+  slug,
+  color,
+  website_url,
+  project_info,
+  background_color,
+  image_projects_page,
+  publishedAt,
+  description,
+  blocks
+}`;
+
 export async function unstable_getStaticProps() {
-  const data = await axios
-    .get("https://api.privv.cloud/wp-json/wp/v2/works?filter=[orderby]=date", {
-      headers: { "Cache-Control": "no-cache" }
-    })
-    .then(d => d.data);
+  const data = await client.fetch(query);
   return { props: { projects: data } };
 }
 
@@ -235,31 +253,36 @@ class Home extends React.Component {
             {projects.map(item => (
               <div
                 className="project frontpage-carousell-block frontpage-carousell-block-item"
-                key={item.acf.slug}
+                key={item.slug.current}
               >
                 <div className="frontpage-carousell-block-item-wrapper">
-                  <Link href="/project/[slug]" as={`/project/${item.acf.slug}`}>
+                  <Link
+                    href="/project/[slug]"
+                    as={`/project/${item.slug.current}`}
+                  >
                     <a>
                       <div
                         className="image"
-                        style={{ backgroundColor: item.acf.background_color }}
+                        style={{ backgroundColor: item.background_color.hex }}
                       >
                         <img
-                          src={item.acf.image_for_projects_page.url}
-                          alt={item.title.rendered}
+                          src={imageURL(item.image_projects_page.asset)
+                            .auto("format")
+                            .toString()}
+                          alt={item.title.current}
                         />
                       </div>
                     </a>
                   </Link>
                   <div className="frontpage-carousell-block-item-title">
                     <div className="frontpage-carousell-block-item-title-wrapper">
-                      {item.acf.project_info ? (
+                      {item.project_info ? (
                         <div className="frontpage-carousell-block-item-title-wrapper-project-info">
-                          {item.acf.project_info.split(" ").map((el, index) => {
+                          {item.project_info.split(" ").map((el, index) => {
                             return (
                               <div
                                 className="animate-project-info"
-                                key={item.title.rendered + index + el}
+                                key={item.title + index + el}
                               >
                                 {el}
                               </div>
@@ -268,11 +291,11 @@ class Home extends React.Component {
                         </div>
                       ) : null}
                       <h2>
-                        {item.title.rendered.split(" ").map((el, index) => {
+                        {item.title.split(" ").map((el, index) => {
                           return (
                             <div
                               className="animate-title"
-                              key={item.title.rendered + index + el}
+                              key={item.title + index + el}
                             >
                               {el}
                             </div>
@@ -283,7 +306,7 @@ class Home extends React.Component {
                         <div className="animate-link">
                           <Link
                             href="/project/[slug]"
-                            as={`/project/${item.acf.slug}`}
+                            as={`/project/${item.slug.current}`}
                           >
                             <a>Go to project</a>
                           </Link>

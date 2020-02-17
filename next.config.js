@@ -8,7 +8,9 @@ const withCSS = require("@zeit/next-css");
 module.exports = withCSS(
   withSass({
     env: {
-      DEV: process.env.NODE_ENV === "development"
+      DEV: process.env.NODE_ENV === "development",
+      BACKEND_URL:
+        "https://ua83pq8w.apicdn.sanity.io/v1/graphql/production/default"
     },
     webpack: config => {
       config.node = {
