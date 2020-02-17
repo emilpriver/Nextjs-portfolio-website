@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import anime from "animejs";
 import Router from "next/router";
 import groq from "groq";
