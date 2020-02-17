@@ -162,7 +162,7 @@ class Project extends React.Component {
           <div
             className={`${el.content_float} flex container mx-auto items-center single-project-blocks-item`}
           >
-            <div style={{ maxWidth: `${el.max_width}px;` }}>
+            <div style={{ maxWidth: `${el.max_width}px` }}>
               <BlockContent blocks={el.description} {...client.config()} />
             </div>
           </div>
