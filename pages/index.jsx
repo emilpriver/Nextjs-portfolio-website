@@ -15,7 +15,7 @@ function imageURL(source) {
   return imageUrlBuilder(client).image(source);
 }
 
-const query = groq`*[_type == "works"]{
+const query = groq`*[_type == "works"] | order(_createdAt asc) {
   title,
   thumbnail,
   customer_name,

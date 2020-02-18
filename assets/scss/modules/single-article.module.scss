@@ -112,16 +112,16 @@ section#single-article {
                 }
             }
 
-            pre {
-                background: #f0f0f0;
-                padding: 10px;
-                box-sizing: border-box;
-                overflow-x: scroll;
+            // pre {
+            //     background: #f0f0f0;
+            //     padding: 10px;
+            //     box-sizing: border-box;
+            //     overflow-x: scroll;
 
-                @media (prefers-color-scheme: dark) {
-                    background: #29292e;
-                }
-            }
+            //     @media (prefers-color-scheme: dark) {
+            //         background: #29292e;
+            //     }
+            // }
         }
     }
 }

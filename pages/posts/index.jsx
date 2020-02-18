@@ -1,7 +1,9 @@
 import React from "react";
-import axios from "axios";
+import Link from "next/link";
 import moment from "moment";
-
+import groq from "groq";
+import imageUrlBuilder from "@sanity/image-url";
+import client from "../../sanity";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
@@ -9,16 +11,20 @@ import Layout from "../../components/layout";
 
 import "../../assets/scss/modules/articles.module.scss";
 
+function imageURL(source) {
+  return imageUrlBuilder(client).image(source);
+}
+
+const query = groq`*[_type == "post"] {
+  title,
+  slug, 
+  _createdAt,
+  categories,
+}`;
+
 class Articles extends React.Component {
   static async getInitialProps() {
-    const posts = await axios
-      .get(
-        "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40emilpriver"
-      )
-      .then(r => r.data)
-      .then(r => r.items)
-      .catch(() => false);
-
+    const posts = await client.fetch(query);
     return { posts };
   }
 
@@ -37,49 +43,48 @@ class Articles extends React.Component {
             {posts ? (
               <div className="row">
                 {posts.map(el => {
-                  return el.categories.length > 0 ? (
+                  return (
                     <div
                       className="article w-full md:w-1/2 lg:w-1/3 float-left"
                       key={el.title}
                     >
                       <div className="wrapper">
-                        <a
-                          href={el.link}
-                          rel="noopener noreferrer"
-                          target="_blank"
+                        <Link
+                          href="/posts/[slug]"
+                          as={`/posts/${el.slug.current}`}
                         >
-                          <h3>{el.title}</h3>
-                        </a>
+                          <a>
+                            <h3>{el.title}</h3>
+                          </a>
+                        </Link>
                         <span className="date">
-                          {`${moment(el.pubDate)
+                          {`${moment(el._createdAt)
                             .startOf("hour")
                             .fromNow()}`}
                         </span>
                         <div className="tags">
-                          {el.categories.map(tag => {
+                          {el.categories.map((item, index) => {
                             return (
-                              <div
-                                key={tag}
-                                rel="noopener noreferrer"
-                                className="tag"
-                              >
-                                {tag}
-                              </div>
+                              <span key={item.title}>
+                                {`${item.title}
+                                ${
+                                  el.categories.length !== index + 1 ? ", " : ""
+                                }`}
+                              </span>
                             );
                           })}
                         </div>
                         <div className="read">
-                          <a
-                            href={el.link}
-                            rel="noopener noreferrer"
-                            target="_blank"
+                          <Link
+                            href="/posts/[slug]"
+                            as={`/posts/${el.slug.current}`}
                           >
-                            Read posts ->
-                          </a>
+                            <a>Read posts -></a>
+                          </Link>
                         </div>
                       </div>
                     </div>
-                  ) : null;
+                  );
                 })}
               </div>
             ) : (

@@ -1,7 +1,10 @@
 import React from "react";
-import axios from "axios";
 import moment from "moment";
-
+import groq from "groq";
+import imageUrlBuilder from "@sanity/image-url";
+import BlockContent from "@sanity/block-content-to-react";
+import client from "../../sanity";
+import serializer from "../../sanity/serializer";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
@@ -10,14 +13,17 @@ import Error from "../_error";
 
 import "../../assets/scss/modules/single-article.module.scss";
 
-class SingleArticle extends React.Component {
-  static async getInitialProps(params) {
-    const { slug } = params.query;
-    const post = await axios
-      .get(`https://dev.to/api/articles/${slug}`, {})
-      .then(r => r.data)
-      .catch(() => false);
+function imageURL(source) {
+  return imageUrlBuilder(client).image(source);
+}
 
+const query = groq`*[_type == "post" && slug.current == $slug][0]`;
+
+class SingleArticle extends React.Component {
+  static async getInitialProps(context) {
+    const { slug } = context.query;
+    const post = await client.fetch(query, { slug });
+    console.log(post);
     return { post };
   }
 
@@ -32,22 +38,41 @@ class SingleArticle extends React.Component {
       <Layout>
         <Head
           title={`Emil Privér - Post: ${post.title}`}
-          description={`Emil Privér - Post: ${post.description}`}
-          ogImage={post.social_image}
+          description={`Emil Privér - Post: ${post.title}`}
+          ogImage={imageURL(post.thumbnail.asset)
+            .auto("format")
+            .url()}
         />
         <Nav />
         <section id="single-article">
           <div className="container mx-auto">
             <div className="date">{moment(post.published_at).format("LL")}</div>
             <h1 className="title">{post.title}</h1>
-            <div className="tags">{post.tag_list}</div>
-            <div className="thumbnail">
-              <img src={post.social_image} alt={post.title} />
+            <div className="tags">
+              {post.categories.map((el, index) => {
+                return (
+                  <span key={el.title}>
+                    {`${el.title}
+                    ${post.categories.length !== index + 1 ? ", " : ""}`}
+                  </span>
+                );
+              })}
             </div>
-            <div
-              className="content"
-              dangerouslySetInnerHTML={{ __html: post.body_html }}
-            />
+            <div className="thumbnail">
+              <img
+                src={imageURL(post.thumbnail.asset)
+                  .auto("format")
+                  .url()}
+                alt={post.title}
+              />
+            </div>
+            <div className="content">
+              <BlockContent
+                serializers={serializer}
+                blocks={post.body}
+                {...client.config()}
+              />
+            </div>
           </div>
         </section>
         <Footer />

@@ -1,10 +1,10 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next",
     "build": "next build",
     "export": "next build && next export",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "lint": "eslint .",
     "deploy": "now --prod -e NODE_ENV=production --token=$ZEIT_DEPLOY_KEY --no-clipboard"
   },
@@ -40,6 +40,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-ga": "^2.7.0",
+    "react-highlight": "^0.12.0",
     "sitemap": "^5.1.0",
     "tailwindcss": "^1.1.4",
     "webpack": "^4.41.5",
