@@ -2,11 +2,10 @@
   "name": "create-next-example-app",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "export": "next build && next export",
-    "start": "next start",
-    "lint": "eslint .",
-    "deploy": "now --prod -e NODE_ENV=production --token=$ZEIT_DEPLOY_KEY --no-clipboard"
+    "start": "NODE_ENV=production next start",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@material-ui/core": "^4.8.3",
