@@ -15,7 +15,7 @@ function imageURL(source) {
   return imageUrlBuilder(client).image(source);
 }
 
-const query = groq`*[_type == "post"] {
+const query = groq`*[_type == "post"] | order(_createdAt desc) {
   title,
   slug, 
   _createdAt,

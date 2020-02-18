@@ -3,15 +3,21 @@ import moment from "moment";
 import groq from "groq";
 import client from "../sanity";
 
-const query = groq`*[_type == "works"]{
+const queryProjects = groq`*[_type == "works"]{
   slug,
   publishedAt,
   _updatedAt
 }`;
 
-const sitemapXml = data => {
+const queryPosts = groq`*[_type == "post"]{
+  slug,
+  _createdAt
+}`;
+
+const sitemapXml = (data, posts) => {
   let latestPost = 0;
   let projectsXML = "";
+  let postsXML = "";
 
   data.map(post => {
     const postDate = Date.parse(post._updatedAt);
@@ -24,6 +30,16 @@ const sitemapXml = data => {
       <url>
         <loc>${projectURL}</loc>
         <lastmod>${moment(post.publishedAt).format("YYYY-MM-DD")}</lastmod>
+        <priority>0.50</priority>
+      </url>`;
+  });
+
+  posts.map(post => {
+    const URL = `https://priver.dev/posts/${post.slug.current}/`;
+    postsXML += `
+      <url>
+        <loc>${URL}</loc>
+        <lastmod>${moment(post._createdAt).format("YYYY-MM-DD")}</lastmod>
         <priority>0.50</priority>
       </url>`;
   });
@@ -44,15 +60,17 @@ const sitemapXml = data => {
         <priority>0.80</priority>
       </url>
       ${projectsXML}
+      ${postsXML}
     </urlset>`;
 };
 
 class Sitemap extends React.Component {
   static async getInitialProps({ res }) {
-    const params = await client.fetch(query);
+    const params = await client.fetch(queryProjects);
+    const posts = await client.fetch(queryPosts);
 
     res.setHeader("Content-Type", "text/xml");
-    res.write(sitemapXml(params));
+    res.write(sitemapXml(params, posts));
     res.end();
   }
 }
