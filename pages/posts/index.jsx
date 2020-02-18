@@ -19,13 +19,12 @@ const query = groq`*[_type == "post"] {
   title,
   slug, 
   _createdAt,
-  "tags": *[ _type == "category" && post._ref == ^._id ]
+  categories,
 }`;
 
 class Articles extends React.Component {
   static async getInitialProps() {
     const posts = await client.fetch(query);
-    console.log(posts);
     return { posts };
   }
 
@@ -64,12 +63,14 @@ class Articles extends React.Component {
                             .fromNow()}`}
                         </span>
                         <div className="tags">
-                          {el.tags.map(tag => {
-                            console.log(tag);
+                          {el.categories.map((item, index) => {
                             return (
-                              <div key={tag.title} className="tag">
-                                {tag.title}
-                              </div>
+                              <span key={item.title}>
+                                {`${item.title}
+                                ${
+                                  el.categories.length !== index + 1 ? ", " : ""
+                                }`}
+                              </span>
                             );
                           })}
                         </div>

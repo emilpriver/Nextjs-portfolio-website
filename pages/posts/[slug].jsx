@@ -23,6 +23,7 @@ class SingleArticle extends React.Component {
   static async getInitialProps(context) {
     const { slug } = context.query;
     const post = await client.fetch(query, { slug });
+    console.log(post);
     return { post };
   }
 
@@ -47,7 +48,16 @@ class SingleArticle extends React.Component {
           <div className="container mx-auto">
             <div className="date">{moment(post.published_at).format("LL")}</div>
             <h1 className="title">{post.title}</h1>
-            <div className="tags">{post.tag_list}</div>
+            <div className="tags">
+              {post.categories.map((el, index) => {
+                return (
+                  <span key={el.title}>
+                    {`${el.title}
+                    ${post.categories.length !== index + 1 ? ", " : ""}`}
+                  </span>
+                );
+              })}
+            </div>
             <div className="thumbnail">
               <img
                 src={imageURL(post.thumbnail.asset)
