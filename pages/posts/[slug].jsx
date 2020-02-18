@@ -1,7 +1,8 @@
 import React from "react";
-import axios from "axios";
 import moment from "moment";
-
+import groq from "groq";
+import imageUrlBuilder from "@sanity/image-url";
+import client from "../../sanity";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
@@ -10,15 +11,17 @@ import Error from "../_error";
 
 import "../../assets/scss/modules/single-article.module.scss";
 
-class SingleArticle extends React.Component {
-  static async getInitialProps(params) {
-    const { slug } = params.query;
-    const post = await axios
-      .get(`https://dev.to/api/articles/${slug}`, {})
-      .then(r => r.data)
-      .catch(() => false);
+function imageURL(source) {
+  return imageUrlBuilder(client).image(source);
+}
 
-    return { post };
+const query = groq`*[_type == "post" && slug.current == $slug][0]`;
+
+class SingleArticle extends React.Component {
+  static async getInitialProps(context) {
+    const { slug } = context.query;
+    const posts = await client.fetch(query, { slug });
+    return { posts };
   }
 
   render() {

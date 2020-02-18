@@ -19,7 +19,7 @@ const query = groq`*[_type == "post"] {
   title,
   slug, 
   _createdAt,
-  "tags": *[_type=='categories' && references(^._id)].title
+  "tags": *[ _type == "category" && post._ref == ^._id ]
 }`;
 
 class Articles extends React.Component {
@@ -51,8 +51,8 @@ class Articles extends React.Component {
                     >
                       <div className="wrapper">
                         <Link
-                          href="/post/[slug]"
-                          as={`/post/${el.slug.current}`}
+                          href="/posts/[slug]"
+                          as={`/posts/${el.slug.current}`}
                         >
                           <a>
                             <h3>{el.title}</h3>
@@ -65,17 +65,18 @@ class Articles extends React.Component {
                         </span>
                         <div className="tags">
                           {el.tags.map(tag => {
+                            console.log(tag);
                             return (
-                              <div key={tag} className="tag">
-                                {tag}
+                              <div key={tag.title} className="tag">
+                                {tag.title}
                               </div>
                             );
                           })}
                         </div>
                         <div className="read">
                           <Link
-                            href="/post/[slug]"
-                            as={`/post/${el.slug.current}`}
+                            href="/posts/[slug]"
+                            as={`/posts/${el.slug.current}`}
                           >
                             <a>Read posts -></a>
                           </Link>
