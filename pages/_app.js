@@ -6,6 +6,7 @@ import CustomProgressBar from "../components/nextNprogress";
  */
 import "../assets/main.css";
 import "../assets/scss/main.scss";
+import "highlight.js/scss/atom-one-dark.scss";
 
 class Application extends App {
   render() {

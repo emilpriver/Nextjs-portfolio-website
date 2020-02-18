@@ -1,11 +1,12 @@
 import React from "react";
+import Highlight from "react-highlight";
 
 const serializers = {
   types: {
     code: props => (
-      <pre data-language={props.node.language}>
+      <Highlight className={props.node.language}>
         <code>{props.node.code}</code>
-      </pre>
+      </Highlight>
     )
   }
 };
