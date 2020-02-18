@@ -269,7 +269,7 @@ class Home extends React.Component {
                           src={imageURL(item.image_projects_page.asset)
                             .auto("format")
                             .toString()}
-                          alt={item.title.current}
+                          alt={item.title}
                         />
                       </div>
                     </a>
