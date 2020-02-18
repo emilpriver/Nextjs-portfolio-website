@@ -1,7 +1,6 @@
 /* eslint-disable */
 const webpack = require("webpack");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
 const withSass = require("@zeit/next-sass");
 const withCSS = require("@zeit/next-css");
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import anime from "animejs";
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
+import LazyLoad from "react-lazyload";
 import client from "../sanity";
 import Head from "../components/head";
 import Nav from "../components/nav";
@@ -265,12 +266,14 @@ class Home extends React.Component {
                         className="image"
                         style={{ backgroundColor: item.background_color.hex }}
                       >
-                        <img
-                          src={imageURL(item.image_projects_page.asset)
-                            .auto("format")
-                            .toString()}
-                          alt={item.title}
-                        />
+                        <LazyLoad offset={500}>
+                          <img
+                            src={imageURL(item.image_projects_page.asset)
+                              .maxWidth(600)
+                              .url()}
+                            alt={item.title}
+                          />
+                        </LazyLoad>
                       </div>
                     </a>
                   </Link>

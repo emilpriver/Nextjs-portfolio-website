@@ -3,7 +3,7 @@ import NextHead from "next/head";
 import { string } from "prop-types";
 
 const Head = props => {
-  const { title, description, url, ogImage } = props;
+  const { title, description, url, ogImage, seoTitle } = props;
   return (
     <NextHead>
       <meta charSet="UTF-8" />
@@ -15,7 +15,7 @@ const Head = props => {
       <link rel="mask-icon" href="/static/favicon-mask.svg" color="#49B882" />
       <link rel="icon" href="/static/favicon.ico" />
       <meta property="og:url" content={url} />
-      <meta property="og:title" content={title || ""} />
+      <meta property="og:title" content={seoTitle || title} />
       <meta property="og:description" content={description} />
       <meta name="twitter:site" content={url} />
       <meta name="twitter:card" content="summary_large_image" />
@@ -41,11 +41,13 @@ Head.propTypes = {
   title: string,
   description: string,
   url: string,
+  seoTitle: string,
   ogImage: string
 };
 
 Head.defaultProps = {
   title: "Emil Privér",
+  seoTitle: null,
   description:
     "Emil Privér - Developer at Rivercode in Borås. I love programming",
   url: "https://priver.dev",

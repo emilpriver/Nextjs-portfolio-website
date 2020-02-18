@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import moment from "moment";
 import groq from "groq";
-import imageUrlBuilder from "@sanity/image-url";
 import client from "../../sanity";
 import Head from "../../components/head";
 import Nav from "../../components/nav";
@@ -10,10 +9,6 @@ import Footer from "../../components/footer";
 import Layout from "../../components/layout";
 
 import "../../assets/scss/modules/articles.module.scss";
-
-function imageURL(source) {
-  return imageUrlBuilder(client).image(source);
-}
 
 const query = groq`*[_type == "post"] | order(_createdAt desc) {
   title,

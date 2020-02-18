@@ -40,6 +40,7 @@
     "react-dom": "^16.12.0",
     "react-ga": "^2.7.0",
     "react-highlight": "^0.12.0",
+    "react-lazyload": "^2.6.5",
     "sitemap": "^5.1.0",
     "tailwindcss": "^1.1.4",
     "webpack": "^4.41.5",

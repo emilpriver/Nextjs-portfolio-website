@@ -3,6 +3,7 @@ import moment from "moment";
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
+import LazyLoad from "react-lazyload";
 import client from "../../sanity";
 import serializer from "../../sanity/serializer";
 import Head from "../../components/head";
@@ -23,22 +24,27 @@ class SingleArticle extends React.Component {
   static async getInitialProps(context) {
     const { slug } = context.query;
     const post = await client.fetch(query, { slug });
-    console.log(post);
     return { post };
   }
 
   render() {
     const { post } = this.props;
+    console.log(post);
 
     if (!post) {
       return <Error />;
     }
 
+    const seotitle = post.seo.seo_title
+      ? post.seo.seo_title
+      : `Post: ${post.title}`;
+
     return (
       <Layout>
         <Head
           title={`Emil Privér - Post: ${post.title}`}
-          description={`Emil Privér - Post: ${post.title}`}
+          seoTitle={`Emil Privér - ${seotitle}`}
+          description={`${post.seo.meta_description}`}
           ogImage={imageURL(post.thumbnail.asset)
             .auto("format")
             .url()}
@@ -59,12 +65,14 @@ class SingleArticle extends React.Component {
               })}
             </div>
             <div className="thumbnail">
-              <img
-                src={imageURL(post.thumbnail.asset)
-                  .auto("format")
-                  .url()}
-                alt={post.title}
-              />
+              <LazyLoad offset={200}>
+                <img
+                  src={imageURL(post.thumbnail.asset)
+                    .auto("format")
+                    .url()}
+                  alt={post.title}
+                />
+              </LazyLoad>
             </div>
             <div className="content">
               <BlockContent
