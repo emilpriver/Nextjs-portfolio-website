@@ -110,10 +110,6 @@ sans-serif;
                             background: #000;
                             height: 2px;
                             width: 5px;
-
-                            @media (prefers-color-scheme: dark) {
-                                background: #fff
-                            }
                         }
                     }
 
@@ -156,10 +152,6 @@ sans-serif;
                     font-size: 20px;
                     font-weight: 500;
                     color: #000;
-
-                    @media (prefers-color-scheme: dark) {
-                        color: #fff
-                    }
 
                     &:after {
                         height: 4px;

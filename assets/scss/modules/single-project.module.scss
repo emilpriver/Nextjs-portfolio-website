@@ -21,10 +21,6 @@ sans-serif;
             font-size: 30px;
             color: #fff;
             font-family: $font;
-
-            @media (prefers-color-scheme: dark) {
-                color: #000;
-            }
         }
     }
 
@@ -44,10 +40,6 @@ sans-serif;
                 color: #000;
                 font-family: $font;
 
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
-
                 & .animate-word {
                     margin-right: 15px;
                 }
@@ -59,10 +51,6 @@ sans-serif;
                 color: #000;
                 font-family: $font;
                 margin-bottom: 100px;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
 
                 @media screen and (min-width: 600px) {
                     font-size: 50px;
@@ -118,10 +106,6 @@ sans-serif;
             color: #000;
             font-family: $font;
 
-            @media (prefers-color-scheme: dark) {
-                color: #fff;
-            }
-
             & .animate-word {
                 margin-right: 10px;
             }
@@ -150,50 +134,30 @@ sans-serif;
                 font-size: 40px;
                 color: #000;
                 font-family: $font;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
             }
 
             h3 {
                 font-size: 35px;
                 color: #000;
                 font-family: $font;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
             }
 
             h4 {
                 font-size: 30px;
                 color: #000;
                 font-family: $font;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
             }
 
             h5 {
                 font-size: 25px;
                 color: #000;
                 font-family: $font;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
             }
 
             p {
                 font-size: 20px;
                 color: #000;
                 font-family: $font;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
             }
         }
     }

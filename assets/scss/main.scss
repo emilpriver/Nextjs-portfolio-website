@@ -10,27 +10,14 @@ body {
 
     &::-webkit-scrollbar-track {
         background: #fff;
-
-        @media (prefers-color-scheme: dark) {
-            background: #000;
-        }
     }
 
     &::-webkit-scrollbar-thumb {
         background-color: #000;
         border-radius: 2px;
-
-        @media (prefers-color-scheme: dark) {
-            background-color: #fff;
-        }
     }
 
     &::-webkit-scrollbar {
         width: 3px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        background: #111;
-        color: #fff;
     }
 }
