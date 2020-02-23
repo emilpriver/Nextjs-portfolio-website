@@ -9,6 +9,7 @@ import Head from "../../components/head";
 import Nav from "../../components/nav";
 import Footer from "../../components/footer";
 import Layout from "../../components/layout";
+import Error from "../_error";
 
 import "../../assets/scss/modules/single-project.module.scss";
 
@@ -16,11 +17,7 @@ function imageURL(source) {
   return imageUrlBuilder(client).image(source);
 }
 
-const generatePagesQuery = groq`*[_type == "works"]{
-  slug
-}`;
-
-const query = groq`*[_type == "works" && slug.current == $slug][0]{
+const projectQuery = groq`*[_type == "works" && slug.current == $slug][0]{
   title,
   thumbnail,
   customer_name,
@@ -37,27 +34,13 @@ const query = groq`*[_type == "works" && slug.current == $slug][0]{
   created
 }|order(created asc)`;
 
-export async function unstable_getStaticPaths() {
-  const data = await client.fetch(generatePagesQuery).then(response => {
-    return response.map(el => {
-      return {
-        params: {
-          slug: el.slug.current
-        }
-      };
-    });
-  });
-
-  return data;
-}
-
-export async function unstable_getStaticProps(context) {
-  const { slug } = context.params;
-  const data = await client.fetch(query, { slug });
-  return { props: { project: data } };
-}
-
 class Project extends React.Component {
+  static async getInitialProps({ query }) {
+    const { slug } = query;
+    const data = await client.fetch(projectQuery, { slug });
+    return { project: data };
+  }
+
   constructor(props) {
     super(props);
     this.bind();
@@ -140,6 +123,10 @@ class Project extends React.Component {
 
   render() {
     const { project } = this.props;
+
+    if (!project) {
+      return <Error />;
+    }
 
     const blocks = project.blocks.map(el => {
       if (el.type_of_block === "large_image") {
