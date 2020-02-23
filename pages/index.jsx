@@ -207,7 +207,7 @@ class Home extends React.Component {
                   <span className="anime-words">working</span>
                   <span className="anime-words">at</span>
                   <span className="anime-words">
-                    <a href="" target="_blank">
+                    <a href="https://rivercode.se" target="_blank">
                       Rivercode
                     </a>
                     ,

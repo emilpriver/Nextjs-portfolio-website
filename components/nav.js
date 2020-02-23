@@ -25,10 +25,10 @@ class Nav extends React.Component {
             </Link>
           </div>
           <div className="links float-right justify-end flex ">
-            <Link href="/about/">
+            <Link href="/about">
               <a>About</a>
             </Link>
-            <Link href="/posts/">
+            <Link href="/posts">
               <a>Posts</a>
             </Link>
           </div>
