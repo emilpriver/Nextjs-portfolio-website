@@ -4,7 +4,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const withSass = require("@zeit/next-sass");
 const withCSS = require("@zeit/next-css");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: true
+  enabled: false
 });
 
 module.exports = withBundleAnalyzer(
