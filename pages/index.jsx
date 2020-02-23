@@ -269,7 +269,7 @@ class Home extends React.Component {
                         <LazyLoad offset={500}>
                           <img
                             src={imageURL(item.image_projects_page.asset)
-                              .maxWidth(600)
+                              .width(600)
                               .url()}
                             alt={item.title}
                           />
