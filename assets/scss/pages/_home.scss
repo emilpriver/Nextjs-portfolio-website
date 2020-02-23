@@ -71,10 +71,6 @@ div#hero {
                 opacity: 0;
                 transform: translateY(5px);
                 transition: all 0.3s;
-
-                @media (prefers-color-scheme: dark) {
-                    background: rgba(255, 255, 255, 0.24);
-                }
             }
 
             &:hover {
@@ -96,10 +92,6 @@ div#hero {
                 font-size: 30px;
                 font-weight: 500;
                 color: #000;
-
-                @media (prefers-color-scheme: dark) {
-                    color: #fff;
-                }
 
                 @media screen and (max-width: 600px) {
                     font-size: 20px;
