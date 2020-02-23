@@ -1,5 +1,4 @@
 import React from "react";
-import Lottie from "../components/lottie";
 import Nav from "../components/nav";
 import Head from "../components/head";
 
@@ -12,7 +11,6 @@ function Error() {
       <Nav />
       <div id="error">
         <div className="wrapper">
-          <Lottie autoPlay url="https://cdn.privv.cloud/Lotti/error-404.json" />
           <span>404, page dont exists</span>
         </div>
       </div>

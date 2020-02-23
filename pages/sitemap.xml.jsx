@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import groq from "groq";
 import client from "../sanity";
 
@@ -29,7 +29,7 @@ const sitemapXml = (data, posts) => {
     projectsXML += `
       <url>
         <loc>${projectURL}</loc>
-        <lastmod>${moment(post.publishedAt).format("YYYY-MM-DD")}</lastmod>
+        <lastmod>${dayjs(post.publishedAt).format("YYYY-MM-DD")}</lastmod>
         <priority>0.50</priority>
       </url>`;
   });
@@ -39,7 +39,7 @@ const sitemapXml = (data, posts) => {
     postsXML += `
       <url>
         <loc>${URL}</loc>
-        <lastmod>${moment(post._createdAt).format("YYYY-MM-DD")}</lastmod>
+        <lastmod>${dayjs(post._createdAt).format("YYYY-MM-DD")}</lastmod>
         <priority>0.50</priority>
       </url>`;
   });
@@ -48,7 +48,7 @@ const sitemapXml = (data, posts) => {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>https://priver.dev/</loc>
-        <lastmod>${moment(latestPost).format("YYYY-MM-DD")}</lastmod>
+        <lastmod>${dayjs(latestPost).format("YYYY-MM-DD")}</lastmod>
         <priority>1.00</priority>
       </url>
       <url>
