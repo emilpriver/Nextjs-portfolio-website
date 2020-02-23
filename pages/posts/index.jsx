@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import moment from "moment";
+import dayjs from "dayjs";
 import groq from "groq";
 import client from "../../sanity";
 import Head from "../../components/head";
@@ -9,6 +9,8 @@ import Footer from "../../components/footer";
 import Layout from "../../components/layout";
 
 import "../../assets/scss/modules/articles.module.scss";
+
+dayjs.extend(require("dayjs/plugin/relativeTime"));
 
 const query = groq`*[_type == "post"] | order(_createdAt desc) {
   title,
@@ -53,9 +55,7 @@ class Articles extends React.Component {
                           </a>
                         </Link>
                         <span className="date">
-                          {`${moment(el._createdAt)
-                            .startOf("hour")
-                            .fromNow()}`}
+                          {dayjs(el._createdAt).from()}
                         </span>
                         <div className="tags">
                           {el.categories.map((item, index) => {

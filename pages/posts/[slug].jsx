@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import groq from "groq";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -29,7 +29,6 @@ class SingleArticle extends React.Component {
 
   render() {
     const { post } = this.props;
-    console.log(post);
 
     if (!post) {
       return <Error />;
@@ -52,7 +51,9 @@ class SingleArticle extends React.Component {
         <Nav />
         <section id="single-article">
           <div className="container mx-auto">
-            <div className="date">{moment(post.published_at).format("LL")}</div>
+            <div className="date">
+              {dayjs(post.published_at).format("MMMM D, YYYY")}
+            </div>
             <h1 className="title">{post.title}</h1>
             <div className="tags">
               {post.categories.map((el, index) => {

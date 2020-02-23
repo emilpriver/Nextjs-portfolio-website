@@ -1,7 +1,9 @@
 import React from "react";
-import Highlight from "react-highlight";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import LazyLoad from "react-lazyload";
 import imageUrlBuilder from "@sanity/image-url";
+
+import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import client from "./index";
 
 function imageURL(source) {
@@ -11,9 +13,9 @@ function imageURL(source) {
 const serializers = {
   types: {
     code: props => (
-      <Highlight className={props.node.language}>
-        <code>{props.node.code}</code>
-      </Highlight>
+      <SyntaxHighlighter language={props.node.language} style={darcula}>
+        {props.node.code}
+      </SyntaxHighlighter>
     ),
     image: props => (
       <figure>
