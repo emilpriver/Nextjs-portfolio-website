@@ -38,6 +38,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "preact": "^10.2.1",
     "preact-render-to-string": "^5.1.4",
+    "preact-ssr-prepass": "npm:preact-ssr-prepass@^1.0.1",
     "prop-types": "^15.7.2",
     "react": "github:preact-compat/react#1.0.0",
     "react-dom": "github:preact-compat/react-dom#1.0.0",
