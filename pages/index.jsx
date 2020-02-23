@@ -164,7 +164,11 @@ class Home extends React.Component {
         <Head title="Emil Privér - Developer in Borås" />
         <Nav />
         <div className="frontpage">
-          <div className="frontpage-carousell">
+          <div
+            className={`frontpage-carousell ${
+              Math.abs(projects.length % 2) == 1 ? "odd" : "even"
+            }`}
+          >
             <div
               className="frontpage-carousell-block"
               ref={this.hero}
@@ -251,75 +255,67 @@ class Home extends React.Component {
                 </div>
               </div>
             </div>
-            {projects.map(item => (
-              <div
-                className="project frontpage-carousell-block frontpage-carousell-block-item"
-                key={item.slug.current}
-              >
-                <div className="frontpage-carousell-block-item-wrapper">
-                  <Link
-                    href="/project/[slug]"
-                    as={`/project/${item.slug.current}`}
-                  >
-                    <a>
-                      <div
-                        className="image"
-                        style={{ backgroundColor: item.background_color.hex }}
-                      >
-                        <LazyLoad offset={500}>
-                          <img
-                            src={imageURL(item.image_projects_page.asset)
-                              .width(600)
-                              .url()}
-                            alt={item.title}
-                          />
-                        </LazyLoad>
-                      </div>
-                    </a>
-                  </Link>
-                  <div className="frontpage-carousell-block-item-title">
-                    <div className="frontpage-carousell-block-item-title-wrapper">
-                      {item.project_info ? (
-                        <div className="frontpage-carousell-block-item-title-wrapper-project-info">
-                          {item.project_info.split(" ").map((el, index) => {
+            <div>
+              {projects.map((item, index) => (
+                <div
+                  className="project frontpage-carousell-block frontpage-carousell-block-item"
+                  key={item.slug.current}
+                >
+                  <div className="frontpage-carousell-block-item-wrapper">
+                    <Link
+                      href="/project/[slug]"
+                      as={`/project/${item.slug.current}`}
+                    >
+                      <a>
+                        <div
+                          className="image"
+                          style={{ backgroundColor: item.background_color.hex }}
+                        >
+                          <LazyLoad offset={500}>
+                            <img
+                              src={imageURL(item.image_projects_page.asset)
+                                .width(600)
+                                .url()}
+                              alt={item.title}
+                            />
+                          </LazyLoad>
+                        </div>
+                      </a>
+                    </Link>
+                    <div className="frontpage-carousell-block-item-title">
+                      <div className="frontpage-carousell-block-item-title-wrapper">
+                        {item.project_info ? (
+                          <div className="frontpage-carousell-block-item-title-wrapper-project-info">
+                            {item.project_info.split(" ").map((el, index) => {
+                              return (
+                                <div
+                                  className="animate-project-info"
+                                  key={item.title + index + el}
+                                >
+                                  {el}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                        <h2>
+                          {item.title.split(" ").map((el, index) => {
                             return (
                               <div
-                                className="animate-project-info"
+                                className="animate-title"
                                 key={item.title + index + el}
                               >
                                 {el}
                               </div>
                             );
                           })}
-                        </div>
-                      ) : null}
-                      <h2>
-                        {item.title.split(" ").map((el, index) => {
-                          return (
-                            <div
-                              className="animate-title"
-                              key={item.title + index + el}
-                            >
-                              {el}
-                            </div>
-                          );
-                        })}
-                      </h2>
-                      <div className="frontpage-carousell-block-item-title-wrapper-link">
-                        <div className="animate-link">
-                          <Link
-                            href="/project/[slug]"
-                            as={`/project/${item.slug.current}`}
-                          >
-                            <a>Go to project</a>
-                          </Link>
-                        </div>
+                        </h2>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
         <Footer />
