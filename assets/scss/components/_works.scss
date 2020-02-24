@@ -4,18 +4,6 @@
         margin: 0 auto;
     }
 
-    &.odd {
-        .frontpage-carousell {
-            &-block {
-                &-item {
-                    &:last-of-type {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-    }
-
     &-block {
         &-item {
             width: 100%;
@@ -83,7 +71,7 @@
 
                 .image {
                     width: 100%;
-                    margin-bottom: 30px;
+                    margin-bottom: 20px;
                     overflow: hidden;
                     height: 700px;
                     padding: 20px;
@@ -104,7 +92,7 @@
                     }
 
                     img {
-                        max-width: 100%;
+                        max-width: 400px;
                         max-height: 600px;
                         height: auto;
                         width: auto;
@@ -121,7 +109,6 @@
             &-title {
                 width: 100%;
                 float: left;
-                padding: 50px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -199,6 +186,29 @@
                         &:hover {
                             &:after {
                                 width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.odd {
+        .frontpage-carousell {
+            &-block {
+                &-item {
+                    &:last-of-type {
+                        width: 100%;
+
+                        .frontpage-carousell-block-item-wrapper {
+                            .image {
+                                height: 900px;
+
+                                img {
+                                    max-width: 700px;
+                                    max-height: 700px;
+                                }
                             }
                         }
                     }

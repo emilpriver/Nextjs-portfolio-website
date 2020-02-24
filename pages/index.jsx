@@ -32,16 +32,12 @@ const query = groq`*[_type == "works"] | order(_createdAt asc) {
   blocks
 }`;
 
-export async function unstable_getStaticProps() {
-  const data = await client.fetch(query);
-  return { props: { projects: data } };
-}
-
-/**
- * @todo Add floating elements behind all text on the hero
- */
-
 class Home extends React.Component {
+  static async getInitialProps() {
+    const data = await client.fetch(query);
+    return { projects: data };
+  }
+
   constructor(props) {
     super(props);
     this.bind();

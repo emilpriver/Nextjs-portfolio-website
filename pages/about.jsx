@@ -69,7 +69,7 @@ class About extends React.Component {
     window.addEventListener("scroll", this.handleMovementBlocks, false);
     window.addEventListener("resize", this.handleMovementBlocks, false);
     window.addEventListener("DOMContentLoaded", this.handleMovementBlocks);
-    Router.events.on("routeChangeComplete", this.handleMovementBlocks);
+    window.onload = () => this.handleMovementBlocks();
   }
 
   removeEvents() {
