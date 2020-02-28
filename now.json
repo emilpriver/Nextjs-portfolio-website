@@ -1,11 +1,14 @@
 {
   "name": "nextjs-portfolio",
-  "routes": [
-    {
-      "src": "/project/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=3600, maxage=0, stale-while-revalidate"
-      }
+  "routes": [{
+    "src": "/",
+    "headers": {
+      "cache-control": "s-maxage=86400, stale-while-revalidate"
     }
-  ]
+  }, {
+    "src": "/project/(.*)",
+    "headers": {
+      "cache-control": "s-maxage=86400, stale-while-revalidate"
+    }
+  }]
 }
