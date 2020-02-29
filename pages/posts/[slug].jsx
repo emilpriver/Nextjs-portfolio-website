@@ -52,7 +52,7 @@ class SingleArticle extends React.Component {
         <section id="single-article">
           <div className="container mx-auto">
             <div className="date">
-              {dayjs(post.published_at).format("MMMM D, YYYY")}
+              {dayjs(post.publishedAt).format("MMMM D, YYYY")}
             </div>
             <h1 className="title">{post.title}</h1>
             <div className="tags">

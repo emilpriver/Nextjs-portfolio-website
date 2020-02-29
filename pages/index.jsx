@@ -62,6 +62,7 @@ class Home extends React.Component {
 
     this.carousellInit();
     setTimeout(() => {
+      this.handleMovementBlocks();
       this.slideInSocials();
     }, 800);
   }
@@ -280,20 +281,6 @@ class Home extends React.Component {
                     </Link>
                     <div className="frontpage-carousell-block-item-title">
                       <div className="frontpage-carousell-block-item-title-wrapper">
-                        {item.project_info ? (
-                          <div className="frontpage-carousell-block-item-title-wrapper-project-info">
-                            {item.project_info.split(" ").map((el, index) => {
-                              return (
-                                <div
-                                  className="animate-project-info"
-                                  key={item.title + index + el}
-                                >
-                                  {el}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : null}
                         <h2>
                           {item.title.split(" ").map((el, index) => {
                             return (

@@ -12,10 +12,10 @@ import "../../assets/scss/modules/articles.module.scss";
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
-const query = groq`*[_type == "post"] | order(_createdAt desc) {
+const query = groq`*[_type == "post"] | order(publishedAt desc) {
   title,
   slug, 
-  _createdAt,
+  publishedAt,
   categories,
 }`;
 
@@ -55,7 +55,7 @@ class Articles extends React.Component {
                           </a>
                         </Link>
                         <span className="date">
-                          {dayjs(el._createdAt).from()}
+                          {dayjs(el.publishedAt).from()}
                         </span>
                         <div className="tags">
                           {el.categories.map((item, index) => {

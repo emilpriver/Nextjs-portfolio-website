@@ -71,7 +71,7 @@
 
                 .image {
                     width: 100%;
-                    margin-bottom: 20px;
+                    margin-bottom: 50px;
                     overflow: hidden;
                     height: 700px;
                     padding: 20px;
@@ -80,6 +80,8 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    background-position: center;
+                    background-size: cover;
 
                     @media screen and (max-width: 1000px) {
                         height: 600px;
@@ -119,11 +121,12 @@
 
                 &-wrapper {
                     h2 {
-                        font-size: 30px;
+                        font-size: 70px;
                         font-family: $font;
-                        font-weight: 500;
+                        font-weight: 600;
                         width: 100%;
                         float: left;
+                        color: #000;
 
                         @media screen and (max-width: 600px) {
                             font-size: 30px;
