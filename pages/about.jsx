@@ -1,6 +1,5 @@
 import React from "react";
 import anime from "animejs";
-import Router from "next/router";
 import Head from "../components/head";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
