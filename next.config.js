@@ -10,6 +10,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 module.exports = withBundleAnalyzer(
   withCSS(
     withSass({
+      experimental: {
+        polyfillsOptimization: true
+      },
       env: {
         DEV: process.env.NODE_ENV === "development",
         BACKEND_URL:
