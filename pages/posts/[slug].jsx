@@ -27,6 +27,10 @@ class SingleArticle extends React.Component {
     return { post };
   }
 
+  componentDidMount = () => this.props.endTransition();
+
+  componentWillUnmount = () => this.props.startTransition();
+
   render() {
     const { post } = this.props;
 

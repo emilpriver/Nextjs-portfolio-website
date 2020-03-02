@@ -60,6 +60,8 @@ class Home extends React.Component {
       }
     });
 
+    this.props.endTransition();
+
     this.carousellInit();
     setTimeout(() => {
       this.handleMovementBlocks();
@@ -68,6 +70,7 @@ class Home extends React.Component {
   }
 
   componentWillUnmount() {
+    this.props.startTransition();
     this.removeEvents();
   }
 

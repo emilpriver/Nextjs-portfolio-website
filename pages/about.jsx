@@ -11,10 +11,12 @@ class About extends React.Component {
   componentDidMount() {
     this.bind();
     this.addEvents();
+    this.props.endTransition();
   }
 
   componentWillUnmount() {
     this.removeEvents();
+    this.props.startTransition();
   }
 
   fadeLetters = (el, type) => {

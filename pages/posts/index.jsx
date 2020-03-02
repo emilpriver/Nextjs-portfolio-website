@@ -25,6 +25,10 @@ class Articles extends React.Component {
     return { posts };
   }
 
+  componentDidMount = () => this.props.endTransition();
+
+  componentWillUnmount = () => this.props.startTransition();
+
   render() {
     const { posts } = this.props;
     return (

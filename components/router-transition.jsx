@@ -1,29 +1,36 @@
 import React, { Component } from "react";
-import Router from "next/router";
 
 class PageTransition extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      active: true
-    };
+  componentDidMount() {
+    this.props.onRef(this);
   }
 
-  startTransition = event => {};
-
-  endTransition = event => {};
-
-  componentDidUpdate() {
-    Router.events.on("routeChangeStart", this.startTransition);
-    Router.events.on("routeChangeComplete", this.endTransition);
+  componentWillUnmount() {
+    this.props.onRef(null);
   }
+
+  startTransition = () => {
+    const element = document.querySelector(".router-transition");
+    element.classList.remove("not-active");
+    element.classList.add("active");
+  };
+
+  endTransition = () => {
+    const element = document.querySelector(".router-transition");
+    element.classList.add("not-active");
+  };
 
   render() {
     const { children } = this.props;
-    const { active } = this.state;
 
-    return <>{children}</>;
+    return (
+      <>
+        <div className="router-transition">
+          <div className="first-block block" />
+        </div>
+        {children}
+      </>
+    );
   }
 }
 

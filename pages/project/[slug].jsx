@@ -47,10 +47,12 @@ class Project extends React.Component {
   }
 
   componentDidMount() {
+    this.props.endTransition();
     this.addEvents();
   }
 
   componentWillUnmount() {
+    this.props.startTransition();
     this.removeEvents();
   }
 
