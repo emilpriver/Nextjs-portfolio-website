@@ -1,6 +1,6 @@
 div#hero {
     box-sizing: border-box;
-    height: 100vh;
+    height: 800px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +17,7 @@ div#hero {
         }
 
         h1 {
-            font-size: 90px;
+            font-size: 70px;
             font-weight: 500;
             margin-top: 0;
             font-family: $font;

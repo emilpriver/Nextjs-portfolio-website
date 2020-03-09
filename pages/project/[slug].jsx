@@ -17,7 +17,11 @@ function imageURL(source) {
   return imageUrlBuilder(client).image(source);
 }
 
-const projectQuery = groq`*[_type == "works" && slug.current == $slug][0]{
+const generatePagesQuery = groq`*[_type == "works"]{
+  slug
+}`;
+
+const query = groq`*[_type == "works" && slug.current == $slug][0]{
   title,
   thumbnail,
   customer_name,
@@ -34,13 +38,30 @@ const projectQuery = groq`*[_type == "works" && slug.current == $slug][0]{
   created
 }|order(created asc)`;
 
-class Project extends React.Component {
-  static async getInitialProps({ query }) {
-    const { slug } = query;
-    const data = await client.fetch(projectQuery, { slug });
-    return { project: data };
-  }
+export async function getStaticPaths() {
+  const data = await client.fetch(generatePagesQuery).then(response => {
+    return response.map(el => {
+      return {
+        params: {
+          slug: el.slug.current
+        }
+      };
+    });
+  });
 
+  return {
+    paths: data,
+    fallback: false
+  };
+}
+
+export async function getStaticProps(context) {
+  const { slug } = context.params;
+  const data = await client.fetch(query, { slug });
+  return { props: { project: data } };
+}
+
+class Project extends React.Component {
   constructor(props) {
     super(props);
     this.bind();

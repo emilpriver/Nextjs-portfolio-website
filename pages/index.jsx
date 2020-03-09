@@ -32,12 +32,12 @@ const query = groq`*[_type == "works"] | order(_createdAt asc) {
   blocks
 }`;
 
-class Home extends React.Component {
-  static async getInitialProps() {
-    const data = await client.fetch(query);
-    return { projects: data };
-  }
+export async function getStaticProps() {
+  const data = await client.fetch(query);
+  return { props: { projects: data } };
+}
 
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.bind();
@@ -173,45 +173,16 @@ class Home extends React.Component {
             >
               <div className="container wrapper">
                 <h1>
-                  <span className="anime-words">I </span>
-                  <span className="anime-words">am</span>
-                  <span className="anime-words">Emil</span>
-                  <span className="anime-words">Priver.</span>
-                  <span className="anime-words">A</span>
-                  <span className="anime-words">developer</span>
-                  <span className="anime-words">based</span>
-                  <span className="anime-words">in</span>
-                  <span className="anime-words">
-                    <a
-                      href="https://www.google.com/maps/place/Borås/@57.724734,12.8920644,13z/data=!3m1!4b1!4m5!3m4!1s0x465aa0b04bdcfeed:0x7c327e8fc1abfa59!8m2!3d57.721035!4d12.939819"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Borås
-                    </a>
-                    ,
-                  </span>
-                  <span className="anime-words">
-                    <a
-                      href="https://www.google.com/maps/place/Sverige/@61.7514617,8.4252509,5z/data=!3m1!4b1!4m5!3m4!1s0x465cb2396d35f0f1:0x22b8eba28dad6f62!8m2!3d60.128161!4d18.643501"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Sweden.
-                    </a>
-                  </span>
-                  <span className="anime-words">Currently</span>
-                  <span className="anime-words">working</span>
-                  <span className="anime-words">at</span>
-                  <span className="anime-words">
-                    <a href="https://rivercode.se" target="_blank">
-                      Rivercode
-                    </a>
-                    ,
-                  </span>
-                  <span className="anime-words">Creating</span>
-                  <span className="anime-words">digital</span>
-                  <span className="anime-words">experiencies.</span>
+                  I am Emil Privér. A developer based in Borås, Sweden.
+                  Currently working at
+                  <a
+                    href="https://rivercode.se"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    &nbsp;Rivercode
+                  </a>
+                  , Creating digital experiencies.
                 </h1>
                 <div className="socials">
                   <a
