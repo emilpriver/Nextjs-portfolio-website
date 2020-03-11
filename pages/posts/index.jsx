@@ -19,12 +19,12 @@ const query = groq`*[_type == "post"] | order(publishedAt desc) {
   categories,
 }`;
 
-class Articles extends React.Component {
-  static async getInitialProps() {
-    const posts = await client.fetch(query);
-    return { posts };
-  }
+export async function getServerSideProps() {
+  const posts = await client.fetch(query);
+  return { props: { posts } };
+}
 
+class Articles extends React.Component {
   render() {
     const { posts } = this.props;
     return (

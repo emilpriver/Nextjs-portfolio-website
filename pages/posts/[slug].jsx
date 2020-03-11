@@ -20,13 +20,13 @@ function imageURL(source) {
 
 const query = groq`*[_type == "post" && slug.current == $slug][0]`;
 
-class SingleArticle extends React.Component {
-  static async getInitialProps(context) {
-    const { slug } = context.query;
-    const post = await client.fetch(query, { slug });
-    return { post };
-  }
+export async function getServerSideProps(context) {
+  const { slug } = context.query;
+  const post = await client.fetch(query, { slug });
+  return { props: { post } };
+}
 
+class SingleArticle extends React.Component {
   render() {
     const { post } = this.props;
 
