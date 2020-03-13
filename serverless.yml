@@ -1,0 +1,15 @@
+service: ${self:custom.name}
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+plugins:
+  - serverless-nextjs-plugin
+custom:
+  name: NextjsPortfolio
+  serverless-nextjs:
+    assetsBucketName: "NextjsPortfolio-${self:provider.stage}"
+package:
+  exclude:
+    - ./**
