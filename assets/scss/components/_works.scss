@@ -99,6 +99,10 @@
                         display: block;
                         transition: all 0.3s;
 
+                        @media screen and (min-width: 1500px) {
+                            max-width: 300px;
+                        }
+
                         @media screen and (max-width: 1000px) {
                             max-height: 500px;
                         }
