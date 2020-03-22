@@ -4,6 +4,8 @@ div#hero {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
 
     .wrapper {
         max-width: 1400px;
@@ -17,14 +19,10 @@ div#hero {
         }
 
         h1 {
-            font-size: 70px;
+            font-size: 3.4rem;
             font-weight: 500;
             margin-top: 0;
             font-family: $font;
-
-            @media screen and (max-width: 1200px) {
-                font-size: 60px;
-            }
 
             @media screen and (max-width: 800px) {
                 font-size: 40px;

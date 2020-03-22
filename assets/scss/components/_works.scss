@@ -1,6 +1,6 @@
 .frontpage-carousell {
     @media screen and (min-width: 1000px) {
-        max-width: 90%;
+        max-width: 70%;
         margin: 0 auto;
     }
 
@@ -14,10 +14,10 @@
             justify-content: center;
             align-items: flex-start;
 
-            @media screen and (min-width: 1000px) {
+            @media screen and (min-width: 1200px) {
                 width: 60%;
                 min-height: 1100px;
-                padding: 40px 40px 40px 0;
+                padding: 120px 120px 120px 0;
             }
 
             @media screen and (max-width: 600px) {
@@ -47,8 +47,6 @@
 
 
                         img {
-                            max-height: 400px;
-
                             @media screen and (min-width: 1000px) and (max-width: 1300px) {
                                 max-height: 300px;
                             }
@@ -58,8 +56,8 @@
             }
 
             &:nth-child(2n) {
-                @media screen and (min-width: 1000px) {
-                    padding: 40px 0 40px 40px;
+                @media screen and (min-width: 1200px) {
+                    padding: 120px 0 120px 120px;
                 }
             }
 
@@ -104,10 +102,6 @@
                         @media screen and (max-width: 1000px) {
                             max-height: 500px;
                         }
-
-                        @media screen and (min-width: 1000px) {
-                            max-width: 400px;
-                        }
                     }
                 }
             }
@@ -116,14 +110,15 @@
                 width: 100%;
                 float: left;
                 display: flex;
-                justify-content: flex-start;
+                justify-content: center;
                 align-items: center;
 
                 &-wrapper {
                     h2 {
-                        font-size: 70px;
+                        text-align: center;
+                        font-size: 2.2rem;
                         font-family: $font;
-                        font-weight: 600;
+                        font-weight: 400;
                         width: 100%;
                         float: left;
                         color: #000;
@@ -206,18 +201,9 @@
             &-block {
                 &-item {
                     &:last-of-type {
-                        width: 100%;
-
-                        .frontpage-carousell-block-item-wrapper {
-                            .image {
-                                height: 900px;
-
-                                img {
-                                    max-width: 700px;
-                                    max-height: 700px;
-                                }
-                            }
-                        }
+                        width: 60%;
+                        float: none;
+                        margin: 0 auto;
                     }
                 }
             }
