@@ -27,7 +27,7 @@
     "dotenv": "^8.2.0",
     "dotenv-load": "^2.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "global": "^4.4.0",
     "groq": "^1.148.1",
     "next": "^9.3.0",
